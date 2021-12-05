@@ -5,6 +5,7 @@ import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.text.Document;
 import java.awt.*;
 import java.awt.event.*;
 import java.text.DecimalFormat;
@@ -44,6 +45,18 @@ public class DevicePanel extends JPanel
     int comboboxWidth = 150;
     //设置for循环需要产生的数量
     int numb = 20;
+    //总平均功率
+    int totalRatedPower = 0;
+    //启动功率
+    int totalStaringPower = 0;
+    //日间功率
+    int daytimePower = 0;
+    //夜间功率
+    int nightPower = 0;
+    //最大铺设光伏板数量
+    int panleNumb = 0;
+
+
 
     //设置字体
     Font TitlFont = new Font("Times New Roman",Font.BOLD,14);
@@ -151,41 +164,57 @@ public class DevicePanel extends JPanel
                 "<html><body>" +"Total" + "<br>" + "Night Power:" + "<html><body>",
                 "<html><body>" +"Maximum Panels" + "<br>" + "Can Be Installed:" + "<html><body>",
                 };
-        JLabel[] resultLabel = new JLabel[labelNumb];
+        JLabel[] resultTitlLabel = new JLabel[labelNumb];
         for(int i = 0; i < labelNumb; i++){
-            resultLabel[i] = new JLabel(titilStr[i]);
-            resultLabel[i].setFont(TitlFont2);
-            if(i<5) resultLabel[i].setForeground(titilColor);
-            else resultLabel[i].setForeground(Color.black);
-            resultPanel.add(resultLabel[i]).setBounds(x-25,y-20,textWidth+30,controlHeight);
+            resultTitlLabel[i] = new JLabel(titilStr[i]);
+            resultTitlLabel[i].setFont(TitlFont2);
+            if(i<5) resultTitlLabel[i].setForeground(titilColor);
+            else resultTitlLabel[i].setForeground(Color.black);
+            resultPanel.add(resultTitlLabel[i]).setBounds(x-25,y-20,textWidth+30,controlHeight);
             y += distanceHeight + 10;
         }
         //还原赋值y
         y = Y;
 
+        //结果显示
+        //结果数组
+        int[] resletLabelArr= new int[] {totalRatedPower,totalStaringPower,daytimePower,nightPower,panleNumb};
+        JLabel[] resultLabel = new JLabel[resletLabelArr.length];
+        y=0;
+
+        for(int i = 0; i < resletLabelArr.length; i++) {
+            resultLabel[i] = new JLabel(String.valueOf(resletLabelArr[i]));
+            resultLabel[i].setFont(TitlFont);
+            resultPanel.add(resultLabel[i]).setBounds(resultTitlLabel[6].getX()+textWidth+60,resultTitlLabel[6].getY()+y,textWidth+30,controlHeight);
+            y += distanceHeight + 10;
+        }
+        //还原赋值y
+        y = Y;
+
+
         //市电情况
         resultPanel.add(textNEPA);
         textNEPA.setBackground(bcakGround);
         textNEPA.setHorizontalAlignment(JTextField.CENTER);
-        textNEPA.setBounds(resultLabel[0].getX()+ resultLabel[0].getWidth()-25,resultLabel[0].getY(),textWidth+40,controlHeight);
+        textNEPA.setBounds(resultTitlLabel[0].getX()+ resultTitlLabel[0].getWidth()-25,resultTitlLabel[0].getY(),textWidth+40,controlHeight);
         textNEPA.addKeyListener(new AdditionalTextKeyListener());
         //发电机的功率
         resultPanel.add(textGen);
         textGen.setBackground(bcakGround);
         textGen.setHorizontalAlignment(JTextField.CENTER);
-        textGen.setBounds(resultLabel[1].getX()+ resultLabel[1].getWidth()-25,resultLabel[1].getY(),textWidth+40,controlHeight);
+        textGen.setBounds(resultTitlLabel[1].getX()+ resultTitlLabel[1].getWidth()-25,resultTitlLabel[1].getY(),textWidth+40,controlHeight);
         textGen.addKeyListener(new AdditionalTextKeyListener());
         //屋顶高度
         resultPanel.add(textRoofHeight);
         textRoofHeight.setBackground(bcakGround);
         textRoofHeight.setHorizontalAlignment(JTextField.CENTER);
-        textRoofHeight.setBounds(resultLabel[2].getX()+ resultLabel[2].getWidth()-25,resultLabel[2].getY(),textWidth+40,controlHeight);
+        textRoofHeight.setBounds(resultTitlLabel[2].getX()+ resultTitlLabel[2].getWidth()-25,resultTitlLabel[2].getY(),textWidth+40,controlHeight);
         textRoofHeight.addKeyListener(new AdditionalTextKeyListener());
         //屋顶面积
         resultPanel.add(textRoofArea);
         textRoofArea.setBackground(bcakGround);
         textRoofArea.setHorizontalAlignment(JTextField.CENTER);
-        textRoofArea.setBounds(resultLabel[3].getX()+ resultLabel[3].getWidth()-25,resultLabel[3].getY(),textWidth+40,controlHeight);
+        textRoofArea.setBounds(resultTitlLabel[3].getX()+ resultTitlLabel[3].getWidth()-25,resultTitlLabel[3].getY(),textWidth+40,controlHeight);
         textRoofArea.addKeyListener(new AdditionalTextKeyListener());
         //房子朝向
         resultPanel.add(comOrientation);
@@ -193,7 +222,7 @@ public class DevicePanel extends JPanel
         comOrientation.addItem("North-South");
         comOrientation.addItem("East-West");
         comOrientation.setSelectedIndex(-1);
-        comOrientation.setBounds(resultLabel[4].getX()+ resultLabel[4].getWidth()-25,resultLabel[4].getY(),textWidth+40,controlHeight);
+        comOrientation.setBounds(resultTitlLabel[4].getX()+ resultTitlLabel[4].getWidth()-25,resultTitlLabel[4].getY(),textWidth+40,controlHeight);
         //选择监听事件
         comOrientation.addKeyListener(new ComboKeyListener());
 
@@ -202,7 +231,7 @@ public class DevicePanel extends JPanel
         Checkpermanent.setBackground(bcakGround);
         Checkpermanent.setFont(new Font("Times New Roman",Font.BOLD,13));
         Checkpermanent.setForeground(titilColor);
-        Checkpermanent.setBounds(resultLabel[10].getX(),resultLabel[10].getY()+distanceHeight+10 ,comboboxWidth,controlHeight*2);
+        Checkpermanent.setBounds(resultTitlLabel[10].getX(),resultTitlLabel[10].getY()+distanceHeight+10 ,comboboxWidth,controlHeight*2);
         //获取方案按钮
         resultPanel.add(resultButton);
         resultButton.setFont(TitlFont2);
@@ -264,6 +293,7 @@ public class DevicePanel extends JPanel
             textPower[i] = new JTextField();
             inputPanel.add(textPower[i]);
             textPower[i].setBounds(devicesCom[i].getX() + comboboxWidth + distanceWidth,y,textWidth,controlHeight);
+            textPower[i].getDocument().addDocumentListener(new DocumentListener());
 
             //设置启动功率的文本框
             textStartPower[i] = new JTextField();
@@ -365,10 +395,6 @@ public class DevicePanel extends JPanel
 
 
     }
-
-
-
-
 
 
     /*Combobox
@@ -593,7 +619,26 @@ public class DevicePanel extends JPanel
     }
 
 
+    class DocumentListener implements javax.swing.event.DocumentListener {
+        @Override
+        public void insertUpdate(DocumentEvent e) {
 
+        }
+
+        @Override
+        public void removeUpdate(DocumentEvent e) {
+
+        }
+
+        @Override
+        public void changedUpdate(DocumentEvent e) {
+            for(int i = 0; i < numb; i++){
+                if(textPower[i].isEnabled() && Integer.parseInt(textPower[i].getText()) >= 0){
+                    totalRatedPower += Integer.parseInt(textPower[i].getText());
+                }
+            }
+        }
+    }
 
 
 
