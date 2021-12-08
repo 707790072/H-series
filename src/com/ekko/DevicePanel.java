@@ -112,6 +112,9 @@ public class DevicePanel extends JPanel
     JCheckBox Checkpermanent = new JCheckBox("<html><body>" +"Ensure Uninterrupted" + "<br>" + " Power Supply" + "<html><body>");
     JButton resultButton = new JButton("GET PACKAGE PLAN");
 
+    int[] resletLabelArr= new int[] {totalRatedPower,totalStaringPower,daytimePower,nightPower,panleNumb};
+    JLabel[] resultLabel = new JLabel[resletLabelArr.length];
+
 
     public DevicePanel()
     {
@@ -177,15 +180,11 @@ public class DevicePanel extends JPanel
         y = Y;
 
         //结果显示
-        //结果数组
-        int[] resletLabelArr= new int[] {totalRatedPower,totalStaringPower,daytimePower,nightPower,panleNumb};
-        JLabel[] resultLabel = new JLabel[resletLabelArr.length];
         y=0;
-
         for(int i = 0; i < resletLabelArr.length; i++) {
             resultLabel[i] = new JLabel(String.valueOf(resletLabelArr[i]));
             resultLabel[i].setFont(TitlFont);
-            resultPanel.add(resultLabel[i]).setBounds(resultTitlLabel[6].getX()+textWidth+60,resultTitlLabel[6].getY()+y,textWidth+30,controlHeight);
+            resultPanel.add(resultLabel[i]).setBounds(resultTitlLabel[6].getX()+textWidth+50,resultTitlLabel[6].getY()+y,textWidth+30,controlHeight);
             y += distanceHeight + 10;
         }
         //还原赋值y
@@ -293,7 +292,6 @@ public class DevicePanel extends JPanel
             textPower[i] = new JTextField();
             inputPanel.add(textPower[i]);
             textPower[i].setBounds(devicesCom[i].getX() + comboboxWidth + distanceWidth,y,textWidth,controlHeight);
-            textPower[i].getDocument().addDocumentListener(new DocumentListener());
 
             //设置启动功率的文本框
             textStartPower[i] = new JTextField();
@@ -363,6 +361,11 @@ public class DevicePanel extends JPanel
             textTimeStart[i].addKeyListener(new DeviceTextKeyListener());
             textTimeEnd[i].addKeyListener(new DeviceTextKeyListener());
             textNmuber[i].addKeyListener(new DeviceTextKeyListener());
+
+            textPower[i].getDocument().addDocumentListener(new TextDocumentListener());
+            textStartPower[i].getDocument().addDocumentListener(new TextDocumentListener());
+
+
 
         }
         //还原赋值y
@@ -619,24 +622,31 @@ public class DevicePanel extends JPanel
     }
 
 
-    class DocumentListener implements javax.swing.event.DocumentListener {
+    class TextDocumentListener implements DocumentListener {
         @Override
         public void insertUpdate(DocumentEvent e) {
+            for(int i = 0; i < numb; i++){
+                if(textPower[i].isEnabled() && Integer.parseInt(textPower[i].getText()) >= 0 && textNmuber[i].getText().length() > 1 ){
+                    //总功率的计算显示
+                    totalRatedPower += Integer.parseInt(textPower[i].getText());
+                    resultLabel[0].setText(String.valueOf(totalRatedPower) + " W");
+                }else if (textStartPower[i].isEnabled() && Integer.parseInt(textStartPower[i].getText()) >= 0){
+                    //启动功率的计算和显示
+                    totalStaringPower  +=  Integer.parseInt(textStartPower[i].getText());
+                    resultLabel[1].setText(String.valueOf(totalStaringPower));
+                    //
 
+                }
+            }
+            totalRatedPower = 0;
+            totalStaringPower = 0;
         }
 
         @Override
         public void removeUpdate(DocumentEvent e) {
-
         }
-
         @Override
         public void changedUpdate(DocumentEvent e) {
-            for(int i = 0; i < numb; i++){
-                if(textPower[i].isEnabled() && Integer.parseInt(textPower[i].getText()) >= 0){
-                    totalRatedPower += Integer.parseInt(textPower[i].getText());
-                }
-            }
         }
     }
 
