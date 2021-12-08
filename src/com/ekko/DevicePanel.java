@@ -364,7 +364,7 @@ public class DevicePanel extends JPanel
 
             textPower[i].getDocument().addDocumentListener(new TextDocumentListener());
             textStartPower[i].getDocument().addDocumentListener(new TextDocumentListener());
-
+            textNmuber[i].getDocument().addDocumentListener(new TextDocumentListener());
 
 
         }
@@ -430,6 +430,12 @@ public class DevicePanel extends JPanel
                         textTimeStart[i].setBackground(bcakGround);
                         textTimeEnd[i].setBackground(bcakGround);
                         textNmuber[i].setBackground(bcakGround);
+
+                        //
+//                        totalRatedPower += Integer.parseInt(textPower[i].getText());
+//                        totalStaringPower += Integer.parseInt(textStartPower[i].getText());
+//                        resultLabel[0].setText(String.valueOf(totalRatedPower) + " W");
+//                        resultLabel[1].setText(String.valueOf(totalStaringPower) + " W");
                     }
                 }
             }
@@ -626,17 +632,25 @@ public class DevicePanel extends JPanel
         @Override
         public void insertUpdate(DocumentEvent e) {
             for(int i = 0; i < numb; i++){
-                if(textPower[i].isEnabled() && Integer.parseInt(textPower[i].getText()) >= 0 && textNmuber[i].getText().length() > 1 ){
+                if(textPower[i].isEnabled() && textPower[i].getText().length() > 0){
                     //总功率的计算显示
                     totalRatedPower += Integer.parseInt(textPower[i].getText());
                     resultLabel[0].setText(String.valueOf(totalRatedPower) + " W");
-                }else if (textStartPower[i].isEnabled() && Integer.parseInt(textStartPower[i].getText()) >= 0){
-                    //启动功率的计算和显示
-                    totalStaringPower  +=  Integer.parseInt(textStartPower[i].getText());
-                    resultLabel[1].setText(String.valueOf(totalStaringPower));
-                    //
-
                 }
+                if(devicesCom[i].isEnabled() && textStartPower[i].getText().length() > 0){
+                    totalStaringPower += Integer.parseInt(textStartPower[i].getText());
+                    resultLabel[1].setText(String.valueOf(totalStaringPower) + " W");
+                }
+                if(devicesCom[i].getSelectedIndex() != -1 && textNmuber[i].getText().equals("0")){
+                    totalRatedPower += Integer.parseInt(textPower[i].getText()) * 0;
+                    totalStaringPower += Integer.parseInt(textStartPower[i].getText()) * 0;
+                }else if(devicesCom[i].getSelectedIndex() != -1 && textNmuber[i].getText().length() > 0){
+                    totalRatedPower += Integer.parseInt(textPower[i].getText()) * Integer.parseInt(textNmuber[i].getText());
+                    totalStaringPower += Integer.parseInt(textStartPower[i].getText()) * Integer.parseInt(textNmuber[i].getText());
+                    resultLabel[0].setText(String.valueOf(totalRatedPower) + " W");
+                    resultLabel[1].setText(String.valueOf(totalStaringPower) + " W");
+                }
+
             }
             totalRatedPower = 0;
             totalStaringPower = 0;
