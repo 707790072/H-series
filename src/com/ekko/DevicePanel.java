@@ -628,37 +628,7 @@ public class DevicePanel extends JPanel
             }
         }
     }
-    //附加输入框输入监听事件
-//    class AdditionalTextKeyListener extends KeyAdapter {
-//
-//        //键盘输入事件，执行程序，后Text内得到值
-//        @Override
-//        public void keyTyped(KeyEvent e){
-//            super.keyTyped(e);
-//            if (e.getKeyChar() >= KeyEvent.VK_0 && e.getKeyChar() <= KeyEvent.VK_9 || e.getKeyChar() == KeyEvent.VK_BACK_SPACE) {
-//                if(textNEPA.isFocusOwner() && textNEPA.getText().length() > 1 ) { e.consume();}
-//                if(textGen.isFocusOwner() && textGen.getText().length() > 4 ){e.consume();}
-//                if(textRoofArea.isFocusOwner() && textRoofArea.getText().length() > 3 ){e.consume();}
-//                if(textRoofHeight.isFocusOwner() && textRoofHeight.getText().length() > 2 ){e.consume();}
-//            }
-//        }
-//
-//        //键盘弹起事件，Text先得到值，然后执行
-//        @Override
-//        public void keyReleased(KeyEvent e){
-//            super.keyReleased(e);
-//            if (e.getKeyChar() >= KeyEvent.VK_0 && e.getKeyChar() <= KeyEvent.VK_9 || e.getKeyChar() == KeyEvent.VK_BACK_SPACE) {
-//                //不可以大于24小时
-//                if(textNEPA.isFocusOwner() && textNEPA.getText().length() > 0){
-//                    textNEPA.setText(textNEPA.getText().replaceFirst("^0*", ""));
-//                    textNEPA.setText(TimeInputText(textNEPA.getText()));
-//                }else if(textNEPA.isFocusOwner() && textNEPA.getText().length() == 0){
-//                    textNEPA.setText("0");
-//                }
-//            }else{e.consume();}
-//        }
-//
-//    }
+
 
     //TextField 内容监听事件
     class TextDocumentListener implements DocumentListener {
@@ -667,7 +637,7 @@ public class DevicePanel extends JPanel
             for(int i = 0; i < numb; i++){
                 if (textPower[i].getText().length() > 0 && textStartPower[i].getText().length() > 0 && !textNmuber[i].getText().equals("")
                         && textTimeStart[i].getText().length() > 0 && textTimeEnd[i].getText().length() > 0){
-                    //初始化 textPower和TextStartPower
+                    //初始化 textPower、TextStartPower、TextNumber
                     if(!textNmuber[i].getText().equals("0")){
                         totalRatedPower += Integer.parseInt(textPower[i].getText()) * Integer.parseInt(textNmuber[i].getText());
                         totalStaringPower += Integer.parseInt(textStartPower[i].getText()) * Integer.parseInt(textNmuber[i].getText());
@@ -679,6 +649,8 @@ public class DevicePanel extends JPanel
                         resultLabel[0].setText(String.valueOf(totalRatedPower) + " W");
                         resultLabel[1].setText(String.valueOf(totalStaringPower) + " W");
                     }
+
+
                 }
             }
             totalRatedPower = 0;
