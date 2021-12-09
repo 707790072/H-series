@@ -396,7 +396,6 @@ public class DevicePanel extends JPanel
         rootPanel.add(resultPanel);
         resultPanel.setBounds(590,0,210,685);
 
-
     }
 
 
@@ -430,12 +429,6 @@ public class DevicePanel extends JPanel
                         textTimeStart[i].setBackground(bcakGround);
                         textTimeEnd[i].setBackground(bcakGround);
                         textNmuber[i].setBackground(bcakGround);
-
-                        //
-//                        totalRatedPower += Integer.parseInt(textPower[i].getText());
-//                        totalStaringPower += Integer.parseInt(textStartPower[i].getText());
-//                        resultLabel[0].setText(String.valueOf(totalRatedPower) + " W");
-//                        resultLabel[1].setText(String.valueOf(totalStaringPower) + " W");
                     }
                 }
             }
@@ -454,6 +447,7 @@ public class DevicePanel extends JPanel
             for (int i = 0; i < numb; i++) {
                 //判断是否焦点在控件上
                 if (keyCode == KeyEvent.VK_BACK_SPACE || keyCode == KeyEvent.VK_SPACE || keyCode == KeyEvent.VK_ESCAPE) {
+                    if (comOrientation.isFocusOwner()) comOrientation.setSelectedIndex(-1);
                     //返回、BackSpace、空格 删除选择
                     if (devicesCom[i].isFocusOwner()) {
                         devicesCom[i].setSelectedIndex(-1);
@@ -475,12 +469,24 @@ public class DevicePanel extends JPanel
                         textTimeEnd[i].setBackground(bcakGround);
                         textNmuber[i].setBackground(bcakGround);
                     }
+
+
+                    if (textPower[i].isEnabled() && textStartPower[i].isEnabled() && textNmuber[i].isEnabled()
+                            && textTimeStart[i].isEnabled() && textTimeEnd[i].isEnabled()) {
+                        if (textPower[i].getText().length() > 0) {
+                            //总功率的计算显示
+                            totalRatedPower += Integer.parseInt(textPower[i].getText());
+                            resultLabel[0].setText(String.valueOf(totalRatedPower) + " W");
+                        }
+                        if (textStartPower[i].getText().length() > 0) {
+                            totalStaringPower += Integer.parseInt(textStartPower[i].getText());
+                            resultLabel[1].setText(String.valueOf(totalStaringPower) + " W");
+                        }
+                    }
                 }
             }
-
-                if (keyCode == KeyEvent.VK_BACK_SPACE || keyCode == KeyEvent.VK_SPACE || keyCode == KeyEvent.VK_ESCAPE) {
-                    if (comOrientation.isFocusOwner()) comOrientation.setSelectedIndex(-1);
-            }
+            totalRatedPower = 0;
+            totalStaringPower = 0;
         }
     }
 
@@ -632,25 +638,28 @@ public class DevicePanel extends JPanel
         @Override
         public void insertUpdate(DocumentEvent e) {
             for(int i = 0; i < numb; i++){
-                if(textPower[i].isEnabled() && textPower[i].getText().length() > 0){
-                    //总功率的计算显示
-                    totalRatedPower += Integer.parseInt(textPower[i].getText());
-                    resultLabel[0].setText(String.valueOf(totalRatedPower) + " W");
-                }
-                if(devicesCom[i].isEnabled() && textStartPower[i].getText().length() > 0){
-                    totalStaringPower += Integer.parseInt(textStartPower[i].getText());
-                    resultLabel[1].setText(String.valueOf(totalStaringPower) + " W");
-                }
-                if(devicesCom[i].getSelectedIndex() != -1 && textNmuber[i].getText().equals("0")){
-                    totalRatedPower += Integer.parseInt(textPower[i].getText()) * 0;
-                    totalStaringPower += Integer.parseInt(textStartPower[i].getText()) * 0;
-                }else if(devicesCom[i].getSelectedIndex() != -1 && textNmuber[i].getText().length() > 0){
-                    totalRatedPower += Integer.parseInt(textPower[i].getText()) * Integer.parseInt(textNmuber[i].getText());
-                    totalStaringPower += Integer.parseInt(textStartPower[i].getText()) * Integer.parseInt(textNmuber[i].getText());
-                    resultLabel[0].setText(String.valueOf(totalRatedPower) + " W");
-                    resultLabel[1].setText(String.valueOf(totalStaringPower) + " W");
-                }
+                if (textPower[i].isEnabled() && textStartPower[i].isEnabled() && textNmuber[i].isEnabled()
+                        && textTimeStart[i].isEnabled() && textTimeEnd[i].isEnabled()){
 
+                    if(textPower[i].getText().length() > 0){
+                        //总功率的计算显示
+                        totalRatedPower += Integer.parseInt(textPower[i].getText());
+                        resultLabel[0].setText(String.valueOf(totalRatedPower) + " W");
+                    }
+                    if(textStartPower[i].getText().length() > 0){
+                        totalStaringPower += Integer.parseInt(textStartPower[i].getText());
+                        resultLabel[1].setText(String.valueOf(totalStaringPower) + " W");
+                    }
+
+                    if(textNmuber[i].isFocusOwner() && textNmuber[i].getText().equals("0")){
+
+                    }else if(textNmuber[i].isFocusOwner() && !textNmuber[i].getText().equals("0")){
+                        totalRatedPower += Integer.parseInt(textPower[i].getText()) * Integer.parseInt(textNmuber[i].getText());
+                        totalStaringPower += Integer.parseInt(textStartPower[i].getText()) * Integer.parseInt(textNmuber[i].getText());
+                        resultLabel[0].setText(String.valueOf(totalRatedPower) + " W");
+                        resultLabel[1].setText(String.valueOf(totalStaringPower) + " W");
+                    }
+                }
             }
             totalRatedPower = 0;
             totalStaringPower = 0;
