@@ -371,7 +371,8 @@ public class DevicePanel extends JPanel
             textPower[i].getDocument().addDocumentListener(new TextDocumentListener());
             textStartPower[i].getDocument().addDocumentListener(new TextDocumentListener());
             textNmuber[i].getDocument().addDocumentListener(new TextDocumentListener());
-
+            textDayTime[i].getDocument().addDocumentListener(new TextDocumentListener());
+            textNightTime[i].getDocument().addDocumentListener(new TextDocumentListener());
 
         }
         //还原赋值y
@@ -424,10 +425,10 @@ public class DevicePanel extends JPanel
                         textNightTime[i].setEnabled(true);
                         textNmuber[i].setEnabled(true);
                         //TextFiles显示数据
-                        textPower[i].setText(getDoubleString(devicesArray.getArray().get(s).getAvgPower()));
-                        textStartPower[i].setText(getDoubleString(devicesArray.getArray().get(s).getStartPower()));
-                        textDayTime[i].setText(getDoubleString(devicesArray.getArray().get(s).getTimeStart()));
-                        textNightTime[i].setText(getDoubleString(devicesArray.getArray().get(s).getTimeEnd()));
+                        textPower[i].setText(String.valueOf(Math.round(devicesArray.getArray().get(s).getAvgPower())));
+                        textStartPower[i].setText(String.valueOf(Math.round(devicesArray.getArray().get(s).getStartPower())));
+                        textDayTime[i].setText(String.valueOf(Math.round(devicesArray.getArray().get(s).getTimeStart())));
+                        textNightTime[i].setText(String.valueOf(Math.round(devicesArray.getArray().get(s).getTimeEnd())));
                         textNmuber[i].setText("1");
                         //初始化Text的颜色
                         textPower[i].setBackground(bcakGround);
@@ -477,25 +478,35 @@ public class DevicePanel extends JPanel
                         textNmuber[i].setBackground(bcakGround);
                     }
 
+
+                    //取消Com的下拉选择后初始值 结果栏
                     if (textPower[i].getText().length() > 0 && textStartPower[i].getText().length() > 0 && !textNmuber[i].getText().equals("")
                             && textDayTime[i].getText().length() > 0 && textNightTime[i].getText().length() > 0){
                         //初始化 textPower和TextStartPower
                         if(!textNmuber[i].getText().equals("0")){
                             totalRatedPower += Integer.parseInt(textPower[i].getText()) * Integer.parseInt(textNmuber[i].getText());
                             totalStaringPower += Integer.parseInt(textStartPower[i].getText()) * Integer.parseInt(textNmuber[i].getText());
+                            daytimePower += Integer.parseInt(textDayTime[i].getText());
+                            nightPower += Integer.parseInt(textNightTime[i].getText());
                             resultLabel[0].setText(String.valueOf(totalRatedPower) + " W");
                             resultLabel[1].setText(String.valueOf(totalStaringPower) + " W");
+                            resultLabel[2].setText(String.valueOf(daytimePower) + " H");
+                            resultLabel[3].setText(String.valueOf(nightPower) + " H");
                         }
                         lastTime ++;
                     }
                     if(lastTime == 0){
                         resultLabel[0].setText("0");
                         resultLabel[1].setText("0");
+                        resultLabel[2].setText("0");
+                        resultLabel[3].setText("0");
                     }
                 }
             }
             totalRatedPower = 0;
             totalStaringPower = 0;
+            daytimePower = 0;
+            nightPower = 0;
             lastTime = 0;
         }
     }
@@ -517,7 +528,7 @@ public class DevicePanel extends JPanel
             for (int i = 0; i < numb; i++) {
                 if ( e.getKeyChar() >= KeyEvent.VK_0 && e.getKeyChar() <= KeyEvent.VK_9 || e.getKeyChar() == KeyEvent.VK_BACK_SPACE){
                     //设备功率判断 黄色为特殊，红色为警告
-                    if (textPower[i].isFocusOwner() && devicesCom[i].getSelectedIndex() != 0)
+                    if (textPower[i].isFocusOwner() && devicesCom[i].getSelectedIndex() > -1)
                     {
                         double arrayPower = devicesArray.getArray().get(devicesCom[i].getSelectedIndex()).getAvgPower();
                         double arrayPowerFactor = devicesArray.getArray().get(devicesCom[i].getSelectedIndex()).getPowerFactor();
@@ -536,7 +547,11 @@ public class DevicePanel extends JPanel
                                 textPower[i].setBackground(lowPower);
                             }
                             //设置启动功率跟随额定功率变化
-                            textStartPower[i].setText(getDoubleString(power * arrayPowerFactor));
+                            if(String.valueOf(power).length() < 6) {
+                                textStartPower[i].setText(String.valueOf(Math.round(power * arrayPowerFactor)));
+                            }else{
+                                textStartPower[i].setText(String.valueOf(Math.round(power * arrayPowerFactor)).substring(0,6));
+                            }
 
                         }else if( textPower[i].getText().length() > 0 && e.getKeyChar() == KeyEvent.VK_BACK_SPACE){
                             int power = Integer.parseInt(textPower[i].getText());
@@ -549,7 +564,11 @@ public class DevicePanel extends JPanel
                             }else{
                                 textPower[i].setBackground(lowPower);
                             }
-                            textStartPower[i].setText(getDoubleString(power * arrayPowerFactor));
+                            if(String.valueOf(power).length() < 6) {
+                                textStartPower[i].setText(String.valueOf(Math.round(power * arrayPowerFactor)));
+                            }else{
+                                textStartPower[i].setText(String.valueOf(Math.round(power * arrayPowerFactor)).substring(0,6));
+                            }
                         }
                     }
                 }
@@ -646,21 +665,25 @@ public class DevicePanel extends JPanel
                     if(!textNmuber[i].getText().equals("0")){
                         totalRatedPower += Integer.parseInt(textPower[i].getText()) * Integer.parseInt(textNmuber[i].getText());
                         totalStaringPower += Integer.parseInt(textStartPower[i].getText()) * Integer.parseInt(textNmuber[i].getText());
-                        resultLabel[0].setText(String.valueOf(totalRatedPower) + " W");
-                        resultLabel[1].setText(String.valueOf(totalStaringPower) + " W");
+                        daytimePower += Integer.parseInt(textDayTime[i].getText());
+                        nightPower += Integer.parseInt(textNightTime[i].getText());
                     }else{
                         totalRatedPower -= Integer.parseInt(textPower[i].getText()) * Integer.parseInt(textNmuber[i].getText());
                         totalStaringPower -= Integer.parseInt(textStartPower[i].getText()) * Integer.parseInt(textNmuber[i].getText());
-                        resultLabel[0].setText(String.valueOf(totalRatedPower) + " W");
-                        resultLabel[1].setText(String.valueOf(totalStaringPower) + " W");
+                        daytimePower -= Integer.parseInt(textDayTime[i].getText());
+                        nightPower -= Integer.parseInt(textNightTime[i].getText());
                     }
-
-                    
+                    resultLabel[0].setText(String.valueOf(totalRatedPower) + " W");
+                    resultLabel[1].setText(String.valueOf(totalStaringPower) + " W");
+                    resultLabel[2].setText(String.valueOf(daytimePower) + " H");
+                    resultLabel[3].setText(String.valueOf(nightPower) + " H");
 
                 }
             }
             totalRatedPower = 0;
             totalStaringPower = 0;
+            daytimePower = 0;
+            nightPower = 0;
         }
 
         @Override
@@ -670,15 +693,6 @@ public class DevicePanel extends JPanel
         public void changedUpdate(DocumentEvent e) {
         }
     }
-
-    //将浮点类型转换为字符串类型方法
-    public String getDoubleString(double number) {
-        number = (double) Math.round(number * 100) / 100;
-        DecimalFormat df = new DecimalFormat("#");
-        String str = df.format(number);
-        return str;
-    }
-
 
     public String TimeInputText(String str) {
         if (str.length() > 0 && Integer.parseInt(str) > 24) return "12";
