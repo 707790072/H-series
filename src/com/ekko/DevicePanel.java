@@ -59,7 +59,7 @@ public class DevicePanel extends JPanel
 
 
     //设置字体
-    Font TitlFont = new Font("Times New Roman",Font.BOLD,14);
+    Font TitlFont = new Font("Times New Roman",Font.BOLD,13);
     Font TitlFont2 = new Font("Times New Roman",PLAIN,12);
     Color titilColor = new Color(139,126,102);
     //背景颜色
@@ -80,9 +80,9 @@ public class DevicePanel extends JPanel
     // 设备开启功率率文本输入框
     JTextField[] textStartPower = new JTextField[numb];
     // 设备使用开始时间文本输入框
-    JTextField[] textTimeStart = new JTextField[numb];
+    JTextField[] textDayTime = new JTextField[numb];
     // 设备使用结束时间文本输入框
-    JTextField[] textTimeEnd = new JTextField[numb];
+    JTextField[] textNightTime = new JTextField[numb];
     // 设备数量文本输入框
     JTextField[] textNmuber = new JTextField[numb];
     //显示开始和结束时间的横杠
@@ -244,8 +244,8 @@ public class DevicePanel extends JPanel
         JLabel label2 = new JLabel("<html><body>" +"Rated" + "<br>" + "Power(W)" + "<html><body>");
         JLabel label3 = new JLabel("<html><body>" +"Starting" + "<br>" + "Power(W)" + "<html><body>");
         JLabel label4 = new JLabel("Quantity");
-        JLabel label5 = new JLabel("<html><body>" +"Start" + "<br>" + "Time" + "<html><body>");
-        JLabel label6 = new JLabel("<html><body>" +"End" + "<br>" + "Time" + "<html><body>");
+        JLabel label5 = new JLabel("<html><body>" +"Day" + "<br>" + "Time(H)" + "<html><body>");
+        JLabel label6 = new JLabel("<html><body>" +"Night" + "<br>" + "Time(H)" + "<html><body>");
 
         label1.setFont(TitlFont);
         label2.setFont(TitlFont);
@@ -304,41 +304,41 @@ public class DevicePanel extends JPanel
             textNmuber[i].setBounds(textStartPower[i].getX() + textWidth + distanceWidth,y,textWidth,controlHeight);
 
             //设置设备开始时间的文本框
-            textTimeStart[i] = new JTextField();
-            inputPanel.add(textTimeStart[i]);
-            textTimeStart[i].setBounds(textNmuber[i].getX() + textWidth + distanceWidth,y,TimeTextWidth,controlHeight);
+            textDayTime[i] = new JTextField();
+            inputPanel.add(textDayTime[i]);
+            textDayTime[i].setBounds(textNmuber[i].getX() + textWidth + distanceWidth,y,TimeTextWidth,controlHeight);
 
 
-            Timelabel[i] = new JLabel("--");
+            Timelabel[i] = new JLabel("+");
             inputPanel.add(Timelabel[i]);
-            Timelabel[i].setBounds(textTimeStart[i].getX() + TimeTextWidth+3 ,y,15,controlHeight);
+            Timelabel[i].setBounds(textDayTime[i].getX() + TimeTextWidth+3 ,y,15,controlHeight);
 
             //设置设备结束时间
-            textTimeEnd[i] = new JTextField();
-            inputPanel.add(textTimeEnd[i]);
-            textTimeEnd[i].setBounds(textTimeStart[i].getX() + TimeTextWidth + distanceWidth,y,TimeTextWidth,controlHeight);
+            textNightTime[i] = new JTextField();
+            inputPanel.add(textNightTime[i]);
+            textNightTime[i].setBounds(textDayTime[i].getX() + TimeTextWidth + distanceWidth,y,TimeTextWidth,controlHeight);
 
             //JTextField 字体居中显示
             textPower[i].setHorizontalAlignment(JTextField.CENTER);
             textStartPower[i].setHorizontalAlignment(JTextField.CENTER);
-            textTimeStart[i].setHorizontalAlignment(JTextField.CENTER);
-            textTimeEnd[i].setHorizontalAlignment(JTextField.CENTER);
+            textDayTime[i].setHorizontalAlignment(JTextField.CENTER);
+            textNightTime[i].setHorizontalAlignment(JTextField.CENTER);
             textNmuber[i].setHorizontalAlignment(JTextField.CENTER);
 
             //设置控件颜色
             devicesCom[i].setBackground(bcakGround);
             textPower[i].setBackground(bcakGround);
             textStartPower[i].setBackground(bcakGround);
-            textTimeStart[i].setBackground(bcakGround);
-            textTimeEnd[i].setBackground(bcakGround);
+            textDayTime[i].setBackground(bcakGround);
+            textNightTime[i].setBackground(bcakGround);
             textNmuber[i].setBackground(bcakGround);
 
 
             //Text框默认禁用状态
             textPower[i].setEnabled(false);
             textStartPower[i].setEnabled(false);
-            textTimeStart[i].setEnabled(false);
-            textTimeEnd[i].setEnabled(false);
+            textDayTime[i].setEnabled(false);
+            textNightTime[i].setEnabled(false);
             textNmuber[i].setEnabled(false);
 
             //设置每个控件之间的Y距离
@@ -358,8 +358,8 @@ public class DevicePanel extends JPanel
             //Text键盘监听事件
             textPower[i].addKeyListener(new DeviceTextKeyListener());
             textStartPower[i].addKeyListener(new DeviceTextKeyListener());
-            textTimeStart[i].addKeyListener(new DeviceTextKeyListener());
-            textTimeEnd[i].addKeyListener(new DeviceTextKeyListener());
+            textDayTime[i].addKeyListener(new DeviceTextKeyListener());
+            textNightTime[i].addKeyListener(new DeviceTextKeyListener());
             textNmuber[i].addKeyListener(new DeviceTextKeyListener());
 
             textNEPA.addKeyListener(new DeviceTextKeyListener());
@@ -420,20 +420,20 @@ public class DevicePanel extends JPanel
                         //启用Text框
                         textPower[i].setEnabled(true);
                         textStartPower[i].setEnabled(true);
-                        textTimeStart[i].setEnabled(true);
-                        textTimeEnd[i].setEnabled(true);
+                        textDayTime[i].setEnabled(true);
+                        textNightTime[i].setEnabled(true);
                         textNmuber[i].setEnabled(true);
                         //TextFiles显示数据
                         textPower[i].setText(getDoubleString(devicesArray.getArray().get(s).getAvgPower()));
                         textStartPower[i].setText(getDoubleString(devicesArray.getArray().get(s).getStartPower()));
-                        textTimeStart[i].setText(getDoubleString(devicesArray.getArray().get(s).getTimeStart()));
-                        textTimeEnd[i].setText(getDoubleString(devicesArray.getArray().get(s).getTimeEnd()));
+                        textDayTime[i].setText(getDoubleString(devicesArray.getArray().get(s).getTimeStart()));
+                        textNightTime[i].setText(getDoubleString(devicesArray.getArray().get(s).getTimeEnd()));
                         textNmuber[i].setText("1");
                         //初始化Text的颜色
                         textPower[i].setBackground(bcakGround);
                         textStartPower[i].setBackground(bcakGround);
-                        textTimeStart[i].setBackground(bcakGround);
-                        textTimeEnd[i].setBackground(bcakGround);
+                        textDayTime[i].setBackground(bcakGround);
+                        textNightTime[i].setBackground(bcakGround);
                         textNmuber[i].setBackground(bcakGround);
                     }
                 }
@@ -460,25 +460,25 @@ public class DevicePanel extends JPanel
                         devicesCom[i].setSelectedIndex(-1);
                         textPower[i].setText("");
                         textStartPower[i].setText("");
-                        textTimeStart[i].setText("");
-                        textTimeEnd[i].setText("");
+                        textDayTime[i].setText("");
+                        textNightTime[i].setText("");
                         textNmuber[i].setText("");
                         //禁用Text框
                         textPower[i].setEnabled(false);
                         textStartPower[i].setEnabled(false);
-                        textTimeStart[i].setEnabled(false);
-                        textTimeEnd[i].setEnabled(false);
+                        textDayTime[i].setEnabled(false);
+                        textNightTime[i].setEnabled(false);
                         textNmuber[i].setEnabled(false);
                         //初始化Text的颜色
                         textPower[i].setBackground(bcakGround);
                         textStartPower[i].setBackground(bcakGround);
-                        textTimeStart[i].setBackground(bcakGround);
-                        textTimeEnd[i].setBackground(bcakGround);
+                        textDayTime[i].setBackground(bcakGround);
+                        textNightTime[i].setBackground(bcakGround);
                         textNmuber[i].setBackground(bcakGround);
                     }
 
                     if (textPower[i].getText().length() > 0 && textStartPower[i].getText().length() > 0 && !textNmuber[i].getText().equals("")
-                            && textTimeStart[i].getText().length() > 0 && textTimeEnd[i].getText().length() > 0){
+                            && textDayTime[i].getText().length() > 0 && textNightTime[i].getText().length() > 0){
                         //初始化 textPower和TextStartPower
                         if(!textNmuber[i].getText().equals("0")){
                             totalRatedPower += Integer.parseInt(textPower[i].getText()) * Integer.parseInt(textNmuber[i].getText());
@@ -581,7 +581,6 @@ public class DevicePanel extends JPanel
                         textStartPower[i].setText(textStartPower[i].getText().replaceFirst("^0*",""));
                     }
 
-
                     if (textNmuber[i].isFocusOwner() && textNmuber[i].getText().length() > 1) {
                         e.consume();
                     }else if(textNmuber[i].isFocusOwner() && textNmuber[i].getText().length() == 0){
@@ -590,38 +589,44 @@ public class DevicePanel extends JPanel
                         textNmuber[i].setText(textNmuber[i].getText().replaceFirst("^0*",""));
                     }
 
-                }else{e.consume();}
-            }
-        }
-
-        //键盘弹起事件，Text先得到值，然后执行
-        @Override
-        public void keyReleased(KeyEvent e) {
-            super.keyReleased(e);
-            for (int i = 0; i < numb; i++) {
-                //只允许输入数字
-                if (e.getKeyChar() >= KeyEvent.VK_0 && e.getKeyChar() <= KeyEvent.VK_9 || e.getKeyChar() == KeyEvent.VK_BACK_SPACE) {
-                    //DeviceText
-                    if (textTimeStart[i].isFocusOwner() && textTimeStart[i].getText().length() > 0) {
-                        textTimeStart[i].setText(textTimeStart[i].getText().replaceFirst("^0*", ""));
-                        textTimeStart[i].setText(TimeInputText(textTimeStart[i].getText()));
-                    }else if(textTimeStart[i].isFocusOwner() && textTimeStart[i].getText().length() == 0){
-                        textTimeStart[i].setText("0");
+                    //日间时间
+                    if (textDayTime[i].isFocusOwner() && textDayTime[i].getText().length() > 1) {
+                        e.consume();
+                    }else if(textDayTime[i].isFocusOwner() && textDayTime[i].getText().length() == 0){
+                        textDayTime[i].setText("0");
+                    }else if(textDayTime[i].isFocusOwner() && textDayTime[i].getText().length() > 0 && e.getKeyChar() != KeyEvent.VK_BACK_SPACE){
+                        if(Integer.parseInt(String.valueOf(textDayTime[i].getText()) + String.valueOf(e.getKeyChar())) < 12) {
+                            textDayTime[i].setText(textDayTime[i].getText().replaceFirst("^0*", ""));
+                        }else{
+                            textDayTime[i].setText("12");
+                            e.consume();
+                        }
                     }
-
-                    if (textTimeEnd[i].isFocusOwner() && textTimeEnd[i].getText().length() > 0) {
-                        textTimeEnd[i].setText(textTimeEnd[i].getText().replaceFirst("^0*", ""));
-                        textTimeEnd[i].setText(TimeInputText(textTimeEnd[i].getText()));
-                    }else if(textTimeEnd[i].isFocusOwner() && textTimeEnd[i].getText().length() == 0){
-                        textTimeEnd[i].setText("0");
+                    //夜间时间
+                    if (textNightTime[i].isFocusOwner() && textNightTime[i].getText().length() > 1) {
+                        e.consume();
+                    }else if(textNightTime[i].isFocusOwner() && textNightTime[i].getText().length() == 0){
+                        textNightTime[i].setText("0");
+                    }else if(textNightTime[i].isFocusOwner() && textNightTime[i].getText().length() > 0 && e.getKeyChar() != KeyEvent.VK_BACK_SPACE){
+                        if(Integer.parseInt(String.valueOf(textNightTime[i].getText()) + String.valueOf(e.getKeyChar())) < 12) {
+                            textNightTime[i].setText(textNightTime[i].getText().replaceFirst("^0*", ""));
+                        }else{
+                            textNightTime[i].setText("12");
+                            e.consume();
+                        }
                     }
-
-                    //附加内容
-                    if(textNEPA.isFocusOwner() && textNEPA.getText().length() > 0){
-                        textNEPA.setText(textNEPA.getText().replaceFirst("^0*", ""));
-                        textNEPA.setText(TimeInputText(textNEPA.getText()));
+                    //NEPA持续时间
+                    if (textNEPA.isFocusOwner() && textNEPA.getText().length() > 1) {
+                        e.consume();
                     }else if(textNEPA.isFocusOwner() && textNEPA.getText().length() == 0){
                         textNEPA.setText("0");
+                    }else if(textNEPA.isFocusOwner() && textNEPA.getText().length() > 0 && e.getKeyChar() != KeyEvent.VK_BACK_SPACE){
+                        if(Integer.parseInt(String.valueOf(textNEPA.getText()) + String.valueOf(e.getKeyChar())) < 12) {
+                            textNEPA.setText(textNEPA.getText().replaceFirst("^0*", ""));
+                        }else{
+                            textNEPA.setText("24");
+                            e.consume();
+                        }
                     }
 
                 }else{e.consume();}
@@ -636,7 +641,7 @@ public class DevicePanel extends JPanel
         public void insertUpdate(DocumentEvent e) {
             for(int i = 0; i < numb; i++){
                 if (textPower[i].getText().length() > 0 && textStartPower[i].getText().length() > 0 && !textNmuber[i].getText().equals("")
-                        && textTimeStart[i].getText().length() > 0 && textTimeEnd[i].getText().length() > 0){
+                        && textDayTime[i].getText().length() > 0 && textNightTime[i].getText().length() > 0){
                     //初始化 textPower、TextStartPower、TextNumber
                     if(!textNmuber[i].getText().equals("0")){
                         totalRatedPower += Integer.parseInt(textPower[i].getText()) * Integer.parseInt(textNmuber[i].getText());
@@ -650,6 +655,7 @@ public class DevicePanel extends JPanel
                         resultLabel[1].setText(String.valueOf(totalStaringPower) + " W");
                     }
 
+                    
 
                 }
             }
@@ -675,10 +681,9 @@ public class DevicePanel extends JPanel
 
 
     public String TimeInputText(String str) {
-        if (str.length() > 0 && Integer.parseInt(str) > 24) return "24";
-        else if (str.length() > 2) return "24";
+        if (str.length() > 0 && Integer.parseInt(str) > 24) return "12";
+        else if (str.length() > 2) return "12";
         return str;
     }
-
 
 }
