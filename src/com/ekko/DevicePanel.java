@@ -238,7 +238,6 @@ public class DevicePanel extends JPanel
         resultButton.setBounds(Checkpermanent.getX(),Checkpermanent.getY()+distanceHeight+60 ,textWidth+100,80);
 
 
-
         //设置文字框
         JLabel label1 = new JLabel("Devices(W)", JLabel.CENTER);
         JLabel label2 = new JLabel("<html><body>" +"Rated" + "<br>" + "Power(W)" + "<html><body>");
@@ -362,11 +361,6 @@ public class DevicePanel extends JPanel
             textNightTime[i].addKeyListener(new DeviceTextKeyListener());
             textNmuber[i].addKeyListener(new DeviceTextKeyListener());
 
-            textNEPA.addKeyListener(new DeviceTextKeyListener());
-            textGen.addKeyListener(new DeviceTextKeyListener());
-            textRoofHeight.addKeyListener(new DeviceTextKeyListener());
-            textRoofArea.addKeyListener(new DeviceTextKeyListener());
-
 
             textPower[i].getDocument().addDocumentListener(new TextDocumentListener());
             textStartPower[i].getDocument().addDocumentListener(new TextDocumentListener());
@@ -375,6 +369,12 @@ public class DevicePanel extends JPanel
             textNightTime[i].getDocument().addDocumentListener(new TextDocumentListener());
 
         }
+        textNEPA.addKeyListener(new DeviceTextKeyListener());
+        textGen.addKeyListener(new DeviceTextKeyListener());
+        textRoofHeight.addKeyListener(new DeviceTextKeyListener());
+        textRoofArea.addKeyListener(new DeviceTextKeyListener());
+        textRoofArea.getDocument().addDocumentListener(new TextPanleDocumentListener());
+
         //还原赋值y
         y = Y;
 
@@ -575,13 +575,6 @@ public class DevicePanel extends JPanel
 
                 //只允许输入数字
                 if (e.getKeyChar() >= KeyEvent.VK_0 && e.getKeyChar() <= KeyEvent.VK_9 || e.getKeyChar() == KeyEvent.VK_BACK_SPACE) {
-                    //附加Text
-                    if (e.getKeyChar() >= KeyEvent.VK_0 && e.getKeyChar() <= KeyEvent.VK_9 || e.getKeyChar() == KeyEvent.VK_BACK_SPACE) {
-                        if(textNEPA.isFocusOwner() && textNEPA.getText().length() > 1 ) { e.consume();}
-                        if(textGen.isFocusOwner() && textGen.getText().length() > 4 ){e.consume();}
-                        if(textRoofArea.isFocusOwner() && textRoofArea.getText().length() > 3 ){e.consume();}
-                        if(textRoofHeight.isFocusOwner() && textRoofHeight.getText().length() > 2 ){e.consume();}
-                    }
 
                     //DeviceText
                     if (textPower[i].isFocusOwner() && textPower[i].getText().length() > 4){
@@ -634,22 +627,33 @@ public class DevicePanel extends JPanel
                             e.consume();
                         }
                     }
-                    //NEPA持续时间
-                    if (textNEPA.isFocusOwner() && textNEPA.getText().length() > 1) {
-                        e.consume();
-                    }else if(textNEPA.isFocusOwner() && textNEPA.getText().length() == 0){
-                        textNEPA.setText("0");
-                    }else if(textNEPA.isFocusOwner() && textNEPA.getText().length() > 0 && e.getKeyChar() != KeyEvent.VK_BACK_SPACE){
-                        if(Integer.parseInt(String.valueOf(textNEPA.getText()) + String.valueOf(e.getKeyChar())) < 12) {
-                            textNEPA.setText(textNEPA.getText().replaceFirst("^0*", ""));
-                        }else{
-                            textNEPA.setText("24");
-                            e.consume();
-                        }
-                    }
-
                 }else{e.consume();}
             }
+
+            //循环外
+            //只允许输入数字
+            if (e.getKeyChar() >= KeyEvent.VK_0 && e.getKeyChar() <= KeyEvent.VK_9 || e.getKeyChar() == KeyEvent.VK_BACK_SPACE) {
+                //附加Text
+                if (textNEPA.isFocusOwner() && textNEPA.getText().length() > 1) { e.consume();}
+                if (textGen.isFocusOwner() && textGen.getText().length() > 4) { e.consume();}
+                if (textRoofArea.isFocusOwner() && textRoofArea.getText().length() > 3) { e.consume();}
+                if (textRoofHeight.isFocusOwner() && textRoofHeight.getText().length() > 2) { e.consume();}
+
+                //NEPA持续时间
+                if (textNEPA.isFocusOwner() && textNEPA.getText().length() > 1) {
+                    e.consume();
+                }else if(textNEPA.isFocusOwner() && textNEPA.getText().length() == 0){
+                    textNEPA.setText("0");
+                }else if(textNEPA.isFocusOwner() && textNEPA.getText().length() > 0 && e.getKeyChar() != KeyEvent.VK_BACK_SPACE){
+                    if(Integer.parseInt(String.valueOf(textNEPA.getText()) + String.valueOf(e.getKeyChar())) < 12) {
+                        textNEPA.setText(textNEPA.getText().replaceFirst("^0*", ""));
+                    }else{
+                        textNEPA.setText("24");
+                        e.consume();
+                    }
+                }
+
+            }else{e.consume();}
         }
     }
 
@@ -694,10 +698,41 @@ public class DevicePanel extends JPanel
         }
     }
 
-    public String TimeInputText(String str) {
-        if (str.length() > 0 && Integer.parseInt(str) > 24) return "12";
-        else if (str.length() > 2) return "12";
-        return str;
+    //panleNumb 光伏板安装数内容监听事件
+    class TextPanleDocumentListener implements DocumentListener{
+    double groupSolarPanelLength = 1.65 + 0.3;
+    double groupSolarPaneWidth = 1 * 3 + 0.1;
+    double groupArea = groupSolarPanelLength * groupSolarPaneWidth;
+
+        @Override
+        public void insertUpdate(DocumentEvent e) {
+            if(textRoofArea.getText().length()> 0 && isNumeric(textRoofArea.getText())){
+                panleNumb = (int)Math.round(Double.valueOf(textRoofArea.getText())/groupArea) * 3;
+                resultLabel[4].setText(String.valueOf(panleNumb));
+            }
+        }
+
+        @Override
+        public void removeUpdate(DocumentEvent e) {
+            if(textRoofArea.getText().length()> 0 && isNumeric(textRoofArea.getText())){
+                panleNumb = (int)Math.round(Double.valueOf(textRoofArea.getText())/groupArea) * 3;
+                resultLabel[4].setText(String.valueOf(panleNumb));
+            }
+        }
+
+        @Override
+        public void changedUpdate(DocumentEvent e) {
+        }
+
+    }
+
+    public static boolean isNumeric(String str){
+        for (int i = str.length();--i>=0;){
+            if (!Character.isDigit(str.charAt(i))){
+                return false;
+            }
+        }
+        return true;
     }
 
 }

@@ -59,14 +59,12 @@ public class Devices
 
     public Devices(int id, String name, int avgPower, double PowerFactor, int timeStart ,int timeEnd)
     {
-
         this.id = id;
         this.name = name;
         this.avgPower = avgPower;
         this.PowerFactor = PowerFactor;
         this.timeStart = timeStart;
         this.timeEnd = timeEnd;
-
     }
 
     public double getStartPower()
@@ -76,3 +74,4 @@ public class Devices
     }
 
 }
+
