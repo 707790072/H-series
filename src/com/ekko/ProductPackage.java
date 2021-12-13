@@ -7,14 +7,57 @@ public class ProductPackage {
 
         private int id;
         //主要部件
-        private String type;
+        private String packageType;
         private int inverter;
         private int battery_3KWH;
         private int battery_5KWH;
         private int solarPanel;
 
+        public void setpackageType(String type) {
+            for(int i = 1;i <= 5;i++){
+                if(type.equals("H1")){
+                    this.id = 1;
+                    this.inverter = 1;
+                    this.battery_3KWH = 1;
+                    this.battery_5KWH = 0;
+                    this.solarPanel = 6;
+                }else if(type.equals("H" + i) && i > 1){
+                    this.id = i;
+                    this.inverter = i - 1;
+                    this.battery_3KWH = 0;
+                    this.battery_5KWH = i;
+                    this.solarPanel = i * 9;
+                }
+            }
 
+        }
+
+        public int getId() {
+            return id;
+        }
+
+        public String getPackageType() {
+            return packageType;
+        }
+
+        public int getInverter() {
+            return inverter;
+        }
+
+        public int getBattery_3KWH() {
+            return battery_3KWH;
+        }
+
+        public int getBattery_5KWH() {
+            return battery_5KWH;
+        }
+
+        public int getSolarPanel() {
+            return solarPanel;
+        }
     }
+
+
 
     public class solarAccessories {
 
