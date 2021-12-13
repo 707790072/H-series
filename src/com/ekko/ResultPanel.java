@@ -8,10 +8,13 @@ public class ResultPanel extends JPanel{
     //添加显示面板
     JPanel showPanel = new JPanel();
     GridLayout gridLayout = new GridLayout(4,4,3,3);
+    JLabel showLabel = new JLabel();
 
 
-
-
+    public ResultPanel() {
+        super();
+        showPanel.add(showLabel);
+    }
 
 
 
