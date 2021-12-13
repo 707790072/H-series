@@ -3,7 +3,7 @@ package com.ekko;
 import java.util.ArrayList;
 public class ProductPackage {
 
-    public class MianProduct {
+    public static class MianProduct {
 
         private int id;
         //主要部件
@@ -13,7 +13,7 @@ public class ProductPackage {
         private int battery_5KWH;
         private int solarPanel;
 
-        public void setpackageType(String type) {
+        public MianProduct(String type) {
             for(int i = 1;i <= 5;i++){
                 if(type.equals("H1")){
                     this.id = 1;
@@ -31,6 +31,16 @@ public class ProductPackage {
             }
 
         }
+
+        public ArrayList<MianProduct> getProductPackageArray()
+        {
+            //创建集合对象
+            ArrayList<MianProduct> array = new ArrayList<MianProduct>();
+            array.add(new MianProduct("H1"));
+            return array;
+        }
+
+
 
         public int getId() {
             return id;
@@ -92,19 +102,6 @@ public class ProductPackage {
 
 
 
+
 }
 
-//    public ArrayList<Product> getProductPackageArray()
-//    {
-//        //创建集合对象
-//        ArrayList<Product> array = new ArrayList<Product>();
-//        array.add(new Product();
-//        array.add(new Product();
-//        array.add(new Product();
-//        array.add(new Product();
-//        array.add(new Product();
-//        array.add(new Product();
-//        array.add(new Product();
-//        array.add(new Product();
-//        return array;
-//    }

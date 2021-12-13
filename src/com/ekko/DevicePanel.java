@@ -63,7 +63,7 @@ public class DevicePanel extends JPanel
     Font TitlFont2 = new Font("Times New Roman",PLAIN,12);
     Color titilColor = new Color(139,126,102);
     //背景颜色
-    Color bcakGround = new Color(255,250,205);
+    Color backGround = new Color(255,250,205);
     //设备超出额定功率高亮
     Color highPower = new Color(255,106,106);
     //设备超出额定功率低亮
@@ -121,7 +121,7 @@ public class DevicePanel extends JPanel
         super();
         //将默认布局取消(重要)
         inputPanel.setLayout(null);
-        inputPanel.setBackground(bcakGround);
+        inputPanel.setBackground(backGround);
 
         /*
                 结果容器resultPanel
@@ -150,7 +150,7 @@ public class DevicePanel extends JPanel
         //将默认布局取消(重要)
         resultPanel.setLayout(null);
         //设置背景颜色
-        resultPanel.setBackground(bcakGround);
+        resultPanel.setBackground(backGround);
 
         //循环遍历Label控件赋值
         int labelNumb = 11;
@@ -193,31 +193,31 @@ public class DevicePanel extends JPanel
 
         //市电情况
         resultPanel.add(textNEPA);
-        textNEPA.setBackground(bcakGround);
+        textNEPA.setBackground(backGround);
         textNEPA.setHorizontalAlignment(JTextField.CENTER);
         textNEPA.setBounds(resultTitlLabel[0].getX()+ resultTitlLabel[0].getWidth()-25,resultTitlLabel[0].getY(),textWidth+40,controlHeight);
 
         //发电机的功率
         resultPanel.add(textGen);
-        textGen.setBackground(bcakGround);
+        textGen.setBackground(backGround);
         textGen.setHorizontalAlignment(JTextField.CENTER);
         textGen.setBounds(resultTitlLabel[1].getX()+ resultTitlLabel[1].getWidth()-25,resultTitlLabel[1].getY(),textWidth+40,controlHeight);
 
         //屋顶高度
         resultPanel.add(textRoofHeight);
-        textRoofHeight.setBackground(bcakGround);
+        textRoofHeight.setBackground(backGround);
         textRoofHeight.setHorizontalAlignment(JTextField.CENTER);
         textRoofHeight.setBounds(resultTitlLabel[2].getX()+ resultTitlLabel[2].getWidth()-25,resultTitlLabel[2].getY(),textWidth+40,controlHeight);
 
         //屋顶面积
         resultPanel.add(textRoofArea);
-        textRoofArea.setBackground(bcakGround);
+        textRoofArea.setBackground(backGround);
         textRoofArea.setHorizontalAlignment(JTextField.CENTER);
         textRoofArea.setBounds(resultTitlLabel[3].getX()+ resultTitlLabel[3].getWidth()-25,resultTitlLabel[3].getY(),textWidth+40,controlHeight);
 
         //房子朝向
         resultPanel.add(comOrientation);
-        comOrientation.setBackground(bcakGround);
+        comOrientation.setBackground(backGround);
         comOrientation.addItem("North-South");
         comOrientation.addItem("East-West");
         comOrientation.setSelectedIndex(-1);
@@ -227,7 +227,7 @@ public class DevicePanel extends JPanel
 
         //是否做到不断电
         resultPanel.add(Checkpermanent);
-        Checkpermanent.setBackground(bcakGround);
+        Checkpermanent.setBackground(backGround);
         Checkpermanent.setFont(new Font("Times New Roman",Font.BOLD,13));
         Checkpermanent.setForeground(titilColor);
         Checkpermanent.setBounds(resultTitlLabel[10].getX(),resultTitlLabel[10].getY()+distanceHeight+10 ,comboboxWidth,controlHeight*2);
@@ -325,12 +325,12 @@ public class DevicePanel extends JPanel
             textNmuber[i].setHorizontalAlignment(JTextField.CENTER);
 
             //设置控件颜色
-            devicesCom[i].setBackground(bcakGround);
-            textPower[i].setBackground(bcakGround);
-            textStartPower[i].setBackground(bcakGround);
-            textDayTime[i].setBackground(bcakGround);
-            textNightTime[i].setBackground(bcakGround);
-            textNmuber[i].setBackground(bcakGround);
+            devicesCom[i].setBackground(backGround);
+            textPower[i].setBackground(backGround);
+            textStartPower[i].setBackground(backGround);
+            textDayTime[i].setBackground(backGround);
+            textNightTime[i].setBackground(backGround);
+            textNmuber[i].setBackground(backGround);
 
 
             //Text框默认禁用状态
@@ -431,11 +431,11 @@ public class DevicePanel extends JPanel
                         textNightTime[i].setText(String.valueOf(Math.round(devicesArray.getArray().get(s).getTimeEnd())));
                         textNmuber[i].setText("1");
                         //初始化Text的颜色
-                        textPower[i].setBackground(bcakGround);
-                        textStartPower[i].setBackground(bcakGround);
-                        textDayTime[i].setBackground(bcakGround);
-                        textNightTime[i].setBackground(bcakGround);
-                        textNmuber[i].setBackground(bcakGround);
+                        textPower[i].setBackground(backGround);
+                        textStartPower[i].setBackground(backGround);
+                        textDayTime[i].setBackground(backGround);
+                        textNightTime[i].setBackground(backGround);
+                        textNmuber[i].setBackground(backGround);
                     }
                 }
             }
@@ -471,11 +471,11 @@ public class DevicePanel extends JPanel
                         textNightTime[i].setEnabled(false);
                         textNmuber[i].setEnabled(false);
                         //初始化Text的颜色
-                        textPower[i].setBackground(bcakGround);
-                        textStartPower[i].setBackground(bcakGround);
-                        textDayTime[i].setBackground(bcakGround);
-                        textNightTime[i].setBackground(bcakGround);
-                        textNmuber[i].setBackground(bcakGround);
+                        textPower[i].setBackground(backGround);
+                        textStartPower[i].setBackground(backGround);
+                        textDayTime[i].setBackground(backGround);
+                        textNightTime[i].setBackground(backGround);
+                        textNmuber[i].setBackground(backGround);
                     }
 
 
@@ -539,7 +539,7 @@ public class DevicePanel extends JPanel
                             int power = Integer.parseInt(String.valueOf(textPower[i].getText()) + String.valueOf(e.getKeyChar()));
                             if(2 * arrayPower >= power && power >= 0.6 * arrayPower)
                             {
-                                textPower[i].setBackground(bcakGround);
+                                textPower[i].setBackground(backGround);
                             }else if(3 * arrayPower < power || 0.2 * arrayPower > power || power == 0)
                             {
                                 textPower[i].setBackground(highPower);
@@ -557,7 +557,7 @@ public class DevicePanel extends JPanel
                             int power = Integer.parseInt(textPower[i].getText());
                             if(2 * arrayPower >= power && power >= 0.6 * arrayPower)
                             {
-                                textPower[i].setBackground(bcakGround);
+                                textPower[i].setBackground(backGround);
                             }else if(3 * arrayPower < power || 0.2 * arrayPower > power || power == 0)
                             {
                                 textPower[i].setBackground(highPower);
