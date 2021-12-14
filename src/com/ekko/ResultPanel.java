@@ -7,6 +7,10 @@ import static java.awt.Font.PLAIN;
 
 public class ResultPanel extends JPanel{
 
+//    private String basePackage;
+//    public void setBasePackage(String basePackage) {
+//        this.basePackage = basePackage;
+//    }
 
     //设置字体
     Font TitlFont = new Font("Times New Roman",Font.BOLD,13);
@@ -31,8 +35,8 @@ public class ResultPanel extends JPanel{
     //continuous套餐
     JButton continuousButton = new JButton();
 
-    public ResultPanel() {
-        super();
+    public ResultPanel(String basePackage) {
+//        super();
         rootPanel.add(basicButton);
         rootPanel.add(advancedButton);
         rootPanel.add(luxuryButton);
@@ -45,12 +49,20 @@ public class ResultPanel extends JPanel{
 
 
         //接受结果的字符串
-        ProductPackage productPackage = new ProductPackage();
-        String resultStr = new String();
-        resultStr = "<html><body>" +"Inverter: " + " 2 " + "<br><br>" + "Duration:" + "<html><body>";
-        //结果显示在Button的Text内部
-        basicButton.setText(resultStr);
-
+        MianProduct mianProduct = new MianProduct();
+        if(basePackage != null) {
+            //设置每个不同的套餐类型
+            mianProduct.setpackageType(basePackage);
+            String resultStr = "<html><body>" +
+                    "Package Name :   " + mianProduct.getPackageType() + "<br><br>" +
+                    "Inverter :   " + mianProduct.getInverter() + "<br><br>" +
+                    "3KWH Battery :   " + mianProduct.getBattery_3KWH() + "<br><br>" +
+                    "5KWH Battery :   " + mianProduct.getBattery_5KWH() + "<br><br>" +
+                    "Solar Panels :   " + mianProduct.getSolarPanel() + "<br><br>" +
+                    "<html><body>";
+            //结果显示在Button的Text内部
+            basicButton.setText(resultStr);
+        }
 
 
     }

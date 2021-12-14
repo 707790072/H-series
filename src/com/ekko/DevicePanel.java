@@ -392,6 +392,7 @@ public class DevicePanel extends JPanel
         textRoofHeight.addKeyListener(new DeviceTextKeyListener());
         textRoofArea.addKeyListener(new DeviceTextKeyListener());
         textRoofArea.getDocument().addDocumentListener(new TextPanleDocumentListener());
+        //结果按钮事件
         resultButton.addActionListener(new comboActionListener());
 
 
@@ -461,33 +462,26 @@ public class DevicePanel extends JPanel
             }
 
             //Button点击触发事件
-            if(resultButton.isFocusOwner() && Integer.parseInt(resultLabel[0].getText()) > 0 && Integer.parseInt(resultLabel[1].getText()) > 0){
+            if(resultButton.isFocusOwner()){
                 /* 产品套餐生成逻辑
                 * 1. 基础套餐判断条件
                     1.1 开启功率必须小于套餐逆变器的80%
                     1.2 额定功率必须小于套餐逆变器的60%
-                * 2. 升级套餐判断条件
-                    2.1 开启功率必须小于套餐逆变器的80%
-                    2.2 额定功率必须小于套餐逆变器的60%
-                    2.3 判断白天和夜间的使用时长，白天的总功率计算增加的光伏板量大于6小时
-                    2.4 判断夜晚的使用时长，夜晚增加电池，保证保存4小时
-                
-                * 3. 豪华套餐判断条件
-                    3.1 开启功率必须小于套餐逆变器的60%
-                    3.2 额定功率必须小于套餐逆变器的40%
-                    3.3 判断白天和夜间的使用时长，白天的总功率计算增加的光伏板量大于12小时
-                    3.4 判断夜晚的使用时长，夜晚增加电池，保证保存6小时
-                     
-                * 4. 不断电套餐条件
-                    3.1 开启功率必须小于套餐逆变器的60%
-                    3.2 额定功率必须小于套餐逆变器的40%
-                    3.3 判断白天和夜间的使用时长，白天的总功率计算增加的光伏板量大于12小时
-                    3.4 判断夜晚的使用时长，夜晚增加电池，保证保存12小时
-                * */
-                
-                
-            }
+                */
+                if(totalRatedPower > 0 && totalStartPower > 0){
+                    MianProduct mianProduct = new MianProduct();
+                    String packageType = mianProduct.getbasicPackage(totalRatedPower,totalStartPower);
 
+                    //判断套餐类型是否是false
+                    if(packageType.equals("false")){
+                        JOptionPane.showMessageDialog(null, "Exceeds the standard package type (20KW)", "ERROR", JOptionPane.ERROR_MESSAGE);
+                    }else{
+                        new ResultPanel(packageType);
+                    }
+                }else {
+                    JOptionPane.showMessageDialog(null, "The total power is 0", "ERROR", JOptionPane.ERROR_MESSAGE);
+                }
+            }
         }
     }
 
