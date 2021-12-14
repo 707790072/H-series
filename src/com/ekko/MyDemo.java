@@ -21,7 +21,7 @@ public class MyDemo {
 
 
         //Tab背景颜色为背景颜色
-        UIManager.put("TabbedPane.background",new DevicePanel().backGround);
+        UIManager.put("TabbedPane.background",new DevicePanel().bcakGround);
         //选中后显示黄色
         UIManager.put("TabbedPane.selected", new Color(255,211,155) );
         //设置选择框
@@ -48,7 +48,8 @@ public class MyDemo {
 
         //向选择框雷添加Tab
         tabbedPane.addTab("device",deivcesPanel);
-        tabbedPane.addTab("结果",resultPanel);
+        tabbedPane.addTab("result",resultPanel);
+
 
         //最底层面板
         JPanel rootPanel = new JPanel();
@@ -56,7 +57,7 @@ public class MyDemo {
         rootPanel.setLayout(new BorderLayout());
         //向最底层面板添加选项面板
         rootPanel.add(tabbedPane,BorderLayout.CENTER);
-        rootPanel.setBackground(new DevicePanel().backGround);
+        rootPanel.setBackground(new DevicePanel().bcakGround);
 
         //向框架内添加底层面板
         frame.add(rootPanel);

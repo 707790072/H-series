@@ -7,50 +7,49 @@ import static java.awt.Font.PLAIN;
 
 public class ResultPanel extends JPanel{
 
-    //字体设置
+
+    //设置字体
     Font TitlFont = new Font("Times New Roman",Font.BOLD,13);
     Font TitlFont2 = new Font("Times New Roman",PLAIN,12);
     Color titilColor = new Color(139,126,102);
     //背景颜色
-    Color backGround = new Color(255,250,205);
-
-    //根部Pannel 边界布局
-    JPanel rootPanel = new JPanel(new BorderLayout());
-
-    //标题数组
-    ProductPackage.MianProduct columnName = new ProductPackage.MianProduct("H1");
-
-    //JTable内容数组
-    String[][] content = new String[][]{{"1","1","1","1"},{"2","2","2","1"},{"3","3","3","1"}};
-
-    //显示页面Panel 布局为网格布局
-    JPanel showPanel = new JPanel(new BorderLayout());
-    //网格
-    JTable showTable = new JTable();
+    Color bcakGround = new Color(255,250,205);
 
 
+    //添加显示面板 网格布局
+    GridLayout gridLayout = new GridLayout(1,4);
+    //底部Panel
+    JPanel rootPanel = new JPanel(gridLayout);
 
-    //底部按钮页面
-    JPanel conformPanel = new JPanel();
-
-
+    //显示结果按钮
+    //basic套餐
+    JButton basicButton = new JButton();
+    //advanced套餐
+    JButton advancedButton = new JButton();
+    //luxury套餐
+    JButton luxuryButton = new JButton();
+    //continuous套餐
+    JButton continuousButton = new JButton();
 
     public ResultPanel() {
         super();
+        rootPanel.add(basicButton);
+        rootPanel.add(advancedButton);
+        rootPanel.add(luxuryButton);
+        rootPanel.add(continuousButton);
+        //设置颜色
+        basicButton.setBackground(bcakGround);
+        advancedButton.setBackground(bcakGround);
+        luxuryButton.setBackground(bcakGround);
+        continuousButton.setBackground(bcakGround);
 
-        //根部布局为边界布局
-        //showPanel 为BorderLayout.SOUTH
-        //conformPanel 为BorderLayout.CENTER
-        rootPanel.add(showPanel,BorderLayout.CENTER);
-        rootPanel.add(conformPanel,BorderLayout.SOUTH);
 
-        //设置背景颜色
-        showPanel.setBackground(Color.yellow);
-        conformPanel.setBackground(Color.red);
-
-        //showPanel添加Label为网格布局
-        showPanel.add(showTable,BorderLayout.CENTER);
-        showTable.setBackground(backGround);
+        //接受结果的字符串
+        ProductPackage productPackage = new ProductPackage();
+        String resultStr = new String();
+        resultStr = "<html><body>" +"Inverter: " + " 2 " + "<br><br>" + "Duration:" + "<html><body>";
+        //结果显示在Button的Text内部
+        basicButton.setText(resultStr);
 
 
 

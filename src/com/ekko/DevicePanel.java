@@ -45,18 +45,35 @@ public class DevicePanel extends JPanel
     int comboboxWidth = 150;
     //设置for循环需要产生的数量
     int numb = 20;
+
+
+    //计算使用的数据
     //总平均功率
-    int totalRatedPower = 0;
+    private int totalRatedPower = 0;
     //启动功率
-    int totalStaringPower = 0;
+    private int totalStartPower = 0;
     //日间功率
-    int daytimePower = 0;
+    private int totalDayPower = 0;
     //夜间功率
-    int nightPower = 0;
+    private int totalNightPower = 0;
     //最大铺设光伏板数量
-    int panleNumb = 0;
+    private int panleNumb = 0;
 
-
+    public int getTotalRatedPower() {
+        return totalRatedPower;
+    }
+    public int getTotalStartPower() {
+        return totalStartPower;
+    }
+    public int getTotalDayPower() {
+        return totalDayPower;
+    }
+    public int getTotalNightPower() {
+        return totalNightPower;
+    }
+    public int getPanleNumb() {
+        return panleNumb;
+    }
 
     //设置字体
     Font TitlFont = new Font("Times New Roman",Font.BOLD,13);
@@ -112,7 +129,7 @@ public class DevicePanel extends JPanel
     JCheckBox Checkpermanent = new JCheckBox("<html><body>" +"Ensure Uninterrupted" + "<br>" + " Power Supply" + "<html><body>");
     JButton resultButton = new JButton("GET PACKAGE PLAN");
 
-    int[] resletLabelArr= new int[] {totalRatedPower,totalStaringPower,daytimePower,nightPower,panleNumb};
+    int[] resletLabelArr= new int[] {totalRatedPower,totalStartPower,totalDayPower,totalNightPower,panleNumb};
     JLabel[] resultLabel = new JLabel[resletLabelArr.length];
 
 
@@ -369,11 +386,14 @@ public class DevicePanel extends JPanel
             textNightTime[i].getDocument().addDocumentListener(new TextDocumentListener());
 
         }
+        //附加输入框事件
         textNEPA.addKeyListener(new DeviceTextKeyListener());
         textGen.addKeyListener(new DeviceTextKeyListener());
         textRoofHeight.addKeyListener(new DeviceTextKeyListener());
         textRoofArea.addKeyListener(new DeviceTextKeyListener());
         textRoofArea.getDocument().addDocumentListener(new TextPanleDocumentListener());
+        resultButton.addActionListener(new comboActionListener());
+
 
         //还原赋值y
         y = Y;
@@ -439,6 +459,35 @@ public class DevicePanel extends JPanel
                     }
                 }
             }
+
+            //Button点击触发事件
+            if(resultButton.isFocusOwner() && Integer.parseInt(resultLabel[0].getText()) > 0 && Integer.parseInt(resultLabel[1].getText()) > 0){
+                /* 产品套餐生成逻辑
+                * 1. 基础套餐判断条件
+                    1.1 开启功率必须小于套餐逆变器的80%
+                    1.2 额定功率必须小于套餐逆变器的60%
+                * 2. 升级套餐判断条件
+                    2.1 开启功率必须小于套餐逆变器的80%
+                    2.2 额定功率必须小于套餐逆变器的60%
+                    2.3 判断白天和夜间的使用时长，白天的总功率计算增加的光伏板量大于6小时
+                    2.4 判断夜晚的使用时长，夜晚增加电池，保证保存4小时
+                
+                * 3. 豪华套餐判断条件
+                    3.1 开启功率必须小于套餐逆变器的60%
+                    3.2 额定功率必须小于套餐逆变器的40%
+                    3.3 判断白天和夜间的使用时长，白天的总功率计算增加的光伏板量大于12小时
+                    3.4 判断夜晚的使用时长，夜晚增加电池，保证保存6小时
+                     
+                * 4. 不断电套餐条件
+                    3.1 开启功率必须小于套餐逆变器的60%
+                    3.2 额定功率必须小于套餐逆变器的40%
+                    3.3 判断白天和夜间的使用时长，白天的总功率计算增加的光伏板量大于12小时
+                    3.4 判断夜晚的使用时长，夜晚增加电池，保证保存12小时
+                * */
+                
+                
+            }
+
         }
     }
 
@@ -451,7 +500,13 @@ public class DevicePanel extends JPanel
         @Override
         public void keyPressed(KeyEvent e) {
             int keyCode = e.getKeyCode();
+            //计算结果使用的变量
             int lastTime = 0;
+            int ratedPower = 0;
+            int startPower = 0;
+            int dayPower = 0;
+            int nightPower = 0;
+
             for (int i = 0; i < numb; i++) {
                 //判断是否焦点在控件上
                 if (keyCode == KeyEvent.VK_BACK_SPACE || keyCode == KeyEvent.VK_SPACE || keyCode == KeyEvent.VK_ESCAPE) {
@@ -484,14 +539,18 @@ public class DevicePanel extends JPanel
                             && textDayTime[i].getText().length() > 0 && textNightTime[i].getText().length() > 0){
                         //初始化 textPower和TextStartPower
                         if(!textNmuber[i].getText().equals("0")){
-                            totalRatedPower += Integer.parseInt(textPower[i].getText()) * Integer.parseInt(textNmuber[i].getText());
-                            totalStaringPower += Integer.parseInt(textStartPower[i].getText()) * Integer.parseInt(textNmuber[i].getText());
-                            daytimePower += Integer.parseInt(textDayTime[i].getText());
+                            ratedPower += Integer.parseInt(textPower[i].getText()) * Integer.parseInt(textNmuber[i].getText());
+                            startPower += Integer.parseInt(textStartPower[i].getText()) * Integer.parseInt(textNmuber[i].getText());
+                            dayPower += Integer.parseInt(textDayTime[i].getText());
                             nightPower += Integer.parseInt(textNightTime[i].getText());
-                            resultLabel[0].setText(String.valueOf(totalRatedPower) + " W");
-                            resultLabel[1].setText(String.valueOf(totalStaringPower) + " W");
-                            resultLabel[2].setText(String.valueOf(daytimePower) + " H");
+                            resultLabel[0].setText(String.valueOf(ratedPower) + " W");
+                            resultLabel[1].setText(String.valueOf(startPower) + " W");
+                            resultLabel[2].setText(String.valueOf(dayPower) + " H");
                             resultLabel[3].setText(String.valueOf(nightPower) + " H");
+                            totalRatedPower = ratedPower;
+                            totalStartPower = startPower;
+                            totalDayPower = dayPower;
+                            totalNightPower = nightPower;
                         }
                         lastTime ++;
                     }
@@ -500,12 +559,16 @@ public class DevicePanel extends JPanel
                         resultLabel[1].setText("0");
                         resultLabel[2].setText("0");
                         resultLabel[3].setText("0");
+                        totalRatedPower = 0;
+                        totalStartPower = 0;
+                        totalDayPower = 0;
+                        totalNightPower = 0;
                     }
                 }
             }
-            totalRatedPower = 0;
-            totalStaringPower = 0;
-            daytimePower = 0;
+            ratedPower = 0;
+            startPower = 0;
+            dayPower = 0;
             nightPower = 0;
             lastTime = 0;
         }
@@ -662,31 +725,39 @@ public class DevicePanel extends JPanel
     class TextDocumentListener implements DocumentListener {
         @Override
         public void insertUpdate(DocumentEvent e) {
+            //计算结果使用的变量
+            int ratedPower = 0;
+            int startPower = 0;
+            int dayPower = 0;
+            int nightPower = 0;
             for(int i = 0; i < numb; i++){
                 if (textPower[i].getText().length() > 0 && textStartPower[i].getText().length() > 0 && !textNmuber[i].getText().equals("")
                         && textDayTime[i].getText().length() > 0 && textNightTime[i].getText().length() > 0){
                     //初始化 textPower、TextStartPower、TextNumber
                     if(!textNmuber[i].getText().equals("0")){
-                        totalRatedPower += Integer.parseInt(textPower[i].getText()) * Integer.parseInt(textNmuber[i].getText());
-                        totalStaringPower += Integer.parseInt(textStartPower[i].getText()) * Integer.parseInt(textNmuber[i].getText());
-                        daytimePower += Integer.parseInt(textDayTime[i].getText());
+                        ratedPower += Integer.parseInt(textPower[i].getText()) * Integer.parseInt(textNmuber[i].getText());
+                        startPower += Integer.parseInt(textStartPower[i].getText()) * Integer.parseInt(textNmuber[i].getText());
+                        dayPower += Integer.parseInt(textDayTime[i].getText());
                         nightPower += Integer.parseInt(textNightTime[i].getText());
                     }else{
-                        totalRatedPower -= Integer.parseInt(textPower[i].getText()) * Integer.parseInt(textNmuber[i].getText());
-                        totalStaringPower -= Integer.parseInt(textStartPower[i].getText()) * Integer.parseInt(textNmuber[i].getText());
-                        daytimePower -= Integer.parseInt(textDayTime[i].getText());
+                        ratedPower -= Integer.parseInt(textPower[i].getText()) * Integer.parseInt(textNmuber[i].getText());
+                        startPower -= Integer.parseInt(textStartPower[i].getText()) * Integer.parseInt(textNmuber[i].getText());
+                        dayPower -= Integer.parseInt(textDayTime[i].getText());
                         nightPower -= Integer.parseInt(textNightTime[i].getText());
                     }
-                    resultLabel[0].setText(String.valueOf(totalRatedPower) + " W");
-                    resultLabel[1].setText(String.valueOf(totalStaringPower) + " W");
-                    resultLabel[2].setText(String.valueOf(daytimePower) + " H");
+                    resultLabel[0].setText(String.valueOf(ratedPower) + " W");
+                    resultLabel[1].setText(String.valueOf(startPower) + " W");
+                    resultLabel[2].setText(String.valueOf(dayPower) + " H");
                     resultLabel[3].setText(String.valueOf(nightPower) + " H");
-
+                    totalRatedPower = ratedPower;
+                    totalStartPower = startPower;
+                    totalDayPower = dayPower;
+                    totalNightPower = nightPower;
                 }
             }
-            totalRatedPower = 0;
-            totalStaringPower = 0;
-            daytimePower = 0;
+            ratedPower = 0;
+            startPower = 0;
+            dayPower = 0;
             nightPower = 0;
         }
 
@@ -726,6 +797,7 @@ public class DevicePanel extends JPanel
 
     }
 
+
     public static boolean isNumeric(String str){
         for (int i = str.length();--i>=0;){
             if (!Character.isDigit(str.charAt(i))){
@@ -734,5 +806,9 @@ public class DevicePanel extends JPanel
         }
         return true;
     }
+
+
+
+
 
 }
