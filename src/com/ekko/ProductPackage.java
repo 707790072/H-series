@@ -1,7 +1,12 @@
 package com.ekko;
 
-import java.util.ArrayList;
 public class ProductPackage {
+
+    DevicePanel devicePanel = new DevicePanel();
+
+    private int totalRatedPower = devicePanel.getTotalRatedPower();
+    private int totalStartPower = devicePanel.getTotalStartPower();
+
 
     public class MianProduct {
 
@@ -13,6 +18,7 @@ public class ProductPackage {
         private int battery_5KWH;
         private int solarPanel;
 
+        //产品类型设置 每个部件数量
         public void setpackageType(String type) {
             for(int i = 1;i <= 5;i++){
                 if(type.equals("H1")){
@@ -31,6 +37,49 @@ public class ProductPackage {
             }
 
         }
+
+        //每个套餐类型的额定功率
+        public int getPackageRatedPower(String type){
+            int packageRated;
+
+            setpackageType(type);
+            if(type.equals("H1")){
+                packageRated = 3;
+            }else{
+                packageRated = getInverter() * 5;
+            }
+            return packageRated;
+        }
+
+
+        /*
+        /基本套餐的判断
+        * 1. 基础套餐判断条件
+            1.1 开启功率必须小于套餐逆变器的80%
+            1.2 额定功率必须小于套餐逆变器的60%
+         */
+
+        public String getbasicPackage(int ratedPower,int startPower){
+
+            if(ratedPower < 3000 * 0.6 && startPower < 3000 * 0.8){
+                return "H1";
+            }else if(ratedPower < 5000 * 0.6 && startPower < 5000 * 0.8){
+                return "H2";
+            }else if(ratedPower < 10000 * 0.6 && startPower < 10000 * 0.8){
+                return "H3";
+            }else if(ratedPower < 15000 * 0.6 && startPower < 15000 * 0.8){
+                return "H4";
+            }else if(ratedPower < 20000 * 0.6 && startPower < 20000 * 0.8){
+                return "H5";
+            }else if(){
+
+            }
+
+        }
+
+
+
+
 
         public int getId() {
             return id;
@@ -54,6 +103,7 @@ public class ProductPackage {
 
         public int getSolarPanel() {
             return solarPanel;
+
         }
     }
 

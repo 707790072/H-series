@@ -17,8 +17,8 @@ public class MyDemo {
         JPanel deivcesPanel = new DevicePanel().rootPanel;
 
         //结果面板
-        JPanel jp2 = new JPanel();
-        jp2.add(new JLabel("这是结果"));
+        JPanel resultPanel = new ResultPanel().rootPanel;
+
 
         //Tab背景颜色为背景颜色
         UIManager.put("TabbedPane.background",new DevicePanel().bcakGround);
@@ -48,7 +48,8 @@ public class MyDemo {
 
         //向选择框雷添加Tab
         tabbedPane.addTab("device",deivcesPanel);
-        tabbedPane.addTab("结果",jp2);
+        tabbedPane.addTab("result",resultPanel);
+
 
         //最底层面板
         JPanel rootPanel = new JPanel();
