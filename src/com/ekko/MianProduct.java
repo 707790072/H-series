@@ -16,7 +16,7 @@ public class MianProduct {
 
     //产品类型设置 每个部件数量
     public void setpackageType(String type) {
-        for(int i = 1;i <= 5;i++){
+        for(int i = 1;i <= 6;i++){
             if(type.equals("H1")){
                 this.id = 1;
                 this.inverter = 1;
@@ -34,18 +34,6 @@ public class MianProduct {
 
     }
 
-    //每个套餐类型的额定功率
-    public int getPackageRatedPower(String type){
-        int packageRated;
-
-        setpackageType(type);
-        if(type.equals("H1")){
-            packageRated = 3;
-        }else{
-            packageRated = getInverter() * 5;
-        }
-        return packageRated;
-    }
 
 
 /* 产品套餐生成逻辑
@@ -88,6 +76,10 @@ public class MianProduct {
         }
         return "false";
     }
+
+    //升级套餐
+
+
 
 
 

@@ -58,13 +58,10 @@ public class DevicePanel extends JPanel
     private int totalNightPower = 0;
     //最大铺设光伏板数量
     private int panleNumb = 0;
-    //
-    public String packageType;
+    //房屋朝向
+    private int orientation;
 
-    public void setPackageType(String packageType) {
-        this.packageType = packageType;
-    }
-    public String getPackageType() { return packageType; }
+
     public int getTotalRatedPower() { return totalRatedPower; }
     public int getTotalStartPower() {
         return totalStartPower;
@@ -78,6 +75,7 @@ public class DevicePanel extends JPanel
     public int getPanleNumb() {
         return panleNumb;
     }
+    public int getOrientation() {return orientation; }
 
     //设置字体
     Font TitlFont = new Font("Times New Roman",Font.BOLD,13);
@@ -397,8 +395,6 @@ public class DevicePanel extends JPanel
         textRoofHeight.addKeyListener(new DeviceTextKeyListener());
         textRoofArea.addKeyListener(new DeviceTextKeyListener());
         textRoofArea.getDocument().addDocumentListener(new TextPanleDocumentListener());
-        //结果按钮事件
-        resultButton.addActionListener(new comboActionListener());
 
 
         //还原赋值y
@@ -463,29 +459,6 @@ public class DevicePanel extends JPanel
                         textNightTime[i].setBackground(backGround);
                         textNmuber[i].setBackground(backGround);
                     }
-                }
-            }
-
-            //Button点击触发事件
-            if(resultButton.isFocusOwner()){
-                /* 产品套餐生成逻辑
-                * 1. 基础套餐判断条件
-                    1.1 开启功率必须小于套餐逆变器的80%
-                    1.2 额定功率必须小于套餐逆变器的60%
-                */
-                if(totalRatedPower > 0 && totalStartPower > 0){
-                    MianProduct mianProduct = new MianProduct();
-                    String packageType = mianProduct.getbasicPackage(totalRatedPower,totalStartPower);
-
-                    //判断套餐类型是否是false
-                    if(packageType.equals("false")){
-                        JOptionPane.showMessageDialog(null, "Exceeds the standard package type (20KW)", "ERROR", JOptionPane.ERROR_MESSAGE);
-                    }else{
-                        DevicePanel.this.packageType = packageType;
-                        RootFrame rootFrame = new RootFrame();
-                    }
-                }else {
-                    JOptionPane.showMessageDialog(null, "The total power is 0", "ERROR", JOptionPane.ERROR_MESSAGE);
                 }
             }
         }

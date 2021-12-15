@@ -30,7 +30,7 @@ public class ResultPanel extends JPanel{
     JButton continuousButton = new JButton();
 
 
-    public ResultPanel() {
+    public ResultPanel(String packageType,int totalDayPower,int totalNightPower,int NEPATime,int genPower,int panleNumb,int orientation,int roofHeight) {
         super();
 
         rootPanel.add(basicButton);
@@ -45,7 +45,7 @@ public class ResultPanel extends JPanel{
 
         //接受结果的字符串
         MianProduct mianProduct = new MianProduct();
-        mianProduct.setpackageType(new DevicePanel().getPackageType());
+        mianProduct.setpackageType(packageType);
         String resultStr = "<html><body>" +
                 "Inverter: " + mianProduct.getInverter() + "<br><br>" +
                 "Inverter: " + mianProduct.getInverter() + "<br><br>" +
