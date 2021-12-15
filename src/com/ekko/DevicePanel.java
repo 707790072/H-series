@@ -58,10 +58,14 @@ public class DevicePanel extends JPanel
     private int totalNightPower = 0;
     //最大铺设光伏板数量
     private int panleNumb = 0;
+    //
+    public String packageType;
 
-    public int getTotalRatedPower() {
-        return totalRatedPower;
+    public void setPackageType(String packageType) {
+        this.packageType = packageType;
     }
+    public String getPackageType() { return packageType; }
+    public int getTotalRatedPower() { return totalRatedPower; }
     public int getTotalStartPower() {
         return totalStartPower;
     }
@@ -136,6 +140,7 @@ public class DevicePanel extends JPanel
     public DevicePanel()
     {
         super();
+
         //将默认布局取消(重要)
         inputPanel.setLayout(null);
         inputPanel.setBackground(backGround);
@@ -476,7 +481,8 @@ public class DevicePanel extends JPanel
                     if(packageType.equals("false")){
                         JOptionPane.showMessageDialog(null, "Exceeds the standard package type (20KW)", "ERROR", JOptionPane.ERROR_MESSAGE);
                     }else{
-                        new ResultPanel(packageType);
+                        DevicePanel.this.packageType = packageType;
+                        RootFrame rootFrame = new RootFrame();
                     }
                 }else {
                     JOptionPane.showMessageDialog(null, "The total power is 0", "ERROR", JOptionPane.ERROR_MESSAGE);
