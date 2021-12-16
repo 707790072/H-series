@@ -85,8 +85,8 @@ public class RootFrame {
                     1.1 开启功率必须小于套餐逆变器的80%
                     1.2 额定功率必须小于套餐逆变器的60%
                 */
-                if(deivcesPanel.getTotalRatedPower() > 0 && deivcesPanel.getTotalStartPower() > 0 &&
-                        deivcesPanel.textNEPA.getText().length() > 0 && deivcesPanel.textGen.getText().length() > 0
+                if(deivcesPanel.getTotalRatedPower() > 0 && deivcesPanel.getTotalStartPower() > 0 && deivcesPanel.textNightNEPA.getText().length() > 0
+                        && deivcesPanel.textDayNEPA.getText().length() > 0 && deivcesPanel.textGen.getText().length() > 0
                         && deivcesPanel.textRoofArea.getText().length() > 0 && deivcesPanel.comOrientation.getSelectedIndex() > -1){
 
                     MianProduct mianProduct = new MianProduct();
@@ -104,11 +104,11 @@ public class RootFrame {
                                     packageType,
                                     deivcesPanel.getTotalDayPower(),
                                     deivcesPanel.getTotalNightPower(),
-                                    Integer.valueOf(deivcesPanel.textNEPA.getText()),
+                                    Integer.valueOf(deivcesPanel.textDayNEPA.getText()),
+                                    Integer.valueOf(deivcesPanel.textNightNEPA.getText()),
                                     Integer.valueOf(deivcesPanel.textGen.getText()),
                                     Integer.valueOf(deivcesPanel.getPanleNumb()),
-                                    Double.valueOf(deivcesPanel.getSolarFactor()),
-                                    Integer.valueOf(deivcesPanel.textRoofHeight.getText())
+                                    Double.valueOf(deivcesPanel.getSolarFactor())
                             ).rootPanel);
 
                             RootFrame.this.tabbedPane.setSelectedIndex(1);
@@ -119,11 +119,11 @@ public class RootFrame {
                                     packageType,
                                     deivcesPanel.getTotalDayPower(),
                                     deivcesPanel.getTotalNightPower(),
-                                    Integer.valueOf(deivcesPanel.textNEPA.getText()),
+                                    Integer.valueOf(deivcesPanel.textDayNEPA.getText()),
+                                    Integer.valueOf(deivcesPanel.textNightNEPA.getText()),
                                     Integer.valueOf(deivcesPanel.textGen.getText()),
                                     Integer.valueOf(deivcesPanel.getPanleNumb()),
-                                    Double.valueOf(deivcesPanel.getSolarFactor()),
-                                    Integer.valueOf(deivcesPanel.textRoofHeight.getText())
+                                    Double.valueOf(deivcesPanel.getSolarFactor())
                             ).rootPanel);
                             RootFrame.this.tabbedPane.setSelectedIndex(1);
                         }

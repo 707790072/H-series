@@ -38,9 +38,9 @@ public class MianProduct {
     public int getPackagePower(String type) {
         for(int i = 1;i <= 6;i++){
             if(type.equals("H1")){
-                return 5000;
+                return 3000;
             }else if(type.equals("H" + i) && i > 1){
-                return (i - 1) * 5000;
+                return (i - 1) * 4800;
             }
         }
         return 0;
@@ -73,9 +73,17 @@ public class MianProduct {
 
     //根据发电机功率判断最大充电电流
     public int getMaxRechargCurrent(String type,int genPower) {
-        return genPower / (3 * 50 * (getPackagePower(type)/5000) );
+        if (type != "false") {
+            return genPower / (3 * 50 * (getPackagePower(type) / 5000));
+        }
+        return 0;
     }
 
+    //判断夜晚使用时常
+    public int getNightUseTime(String type,int totalNightPower,int NEPANightTime) {
+        int nightUseTime = getPackagePower(type) / (totalNightPower + getInverter() * 60 * 6);
+        return nightUseTime;
+    }
 
 
 /* 产品套餐生成逻辑
@@ -119,32 +127,34 @@ public class MianProduct {
         return "false";
     }
 
-    // 2.升级套餐
-    public String advancedPackage(String basePackage,int dayPower,int nightPower,int NEPATime,int genPower,double solarFactor){
 
-        //需要增加的电池数量
-        int addBattry_6; //6小时
-        int addBattry_12; //12小时
-
-
+    // 升级套餐 电池
+    public int additionalBattery(String basePackage,int nightPower,double multiple){
         //夜晚的功率
-        for (int i = 1; i < 100; i++) {
+        for (int i = 1; i < 50; i++) {
             //夜间电池100% 到放完支持6个小时需要的电池量
-            if (getBattryPower(basePackage) + 4800 * i - nightPower - getInverter() * 60 * 6 >= 6 ) {
-                addBattry_6 = i;
-            }
-            if (getBattryPower(basePackage) + 4800 * i - nightPower - getInverter() * 60 * 6 >= 12 ) {
-                addBattry_12 = i;
-            }
-
-            //白夜考虑市电和房屋朝向的情况电池从0%充满
-            if ((getBattryPower(basePackage) + dayPower + getInverter() * 60) <
-            getPanlePower(basePackage) * solarFactor + NEPATime * getMaxRechargCurrent(basePackage,genPower) ){
-
+            if (getBattryPower(basePackage) + 4800 * i >= (nightPower * multiple + getInverter() * 60 * 9)) {
+                return i;
             }
         }
+        return 0;
     }
-
+    // 升级套餐 光伏板
+    public int additionalPanel(String basePackage,int dayPower,int NEPADayTime,double solarFactor){
+        for (int i = 1; i < 50; i++) {
+            //夜间电池100% 到放完支持6个小时需要的电池量
+            if ((getBattryPower(basePackage) + dayPower + getInverter() * 60) <
+            (getPanlePower(basePackage) + i) * solarFactor + NEPADayTime * 1500 ){
+                //判断是否大于每台逆变器支持光伏板最大数 24
+                if(i > getInverter() * 24){
+                    return getInverter() * 24;
+                }else{
+                    return i;
+                }
+            }
+        }
+        return 0;
+    }
 
 
 
