@@ -34,6 +34,48 @@ public class MianProduct {
 
     }
 
+    //套餐类型 获取逆变器功率
+    public int getPackagePower(String type) {
+        for(int i = 1;i <= 6;i++){
+            if(type.equals("H1")){
+                return 5000;
+            }else if(type.equals("H" + i) && i > 1){
+                return (i - 1) * 5000;
+            }
+        }
+        return 0;
+    }
+
+    //套餐类型 获取电池功率
+    public int getBattryPower(String type) {
+        for(int i = 1;i <= 6;i++){
+            if(type.equals("H1")){
+                return 2500;
+            }else if(type.equals("H" + i) && i > 1){
+                return (i - 1) * 4800;
+            }
+        }
+        return 0;
+    }
+
+    //套餐类型 获取光伏板功率
+    public int getPanlePower(String type) {
+        int panleP = 275;
+        for(int i = 1;i <= 6;i++){
+            if(type.equals("H1")){
+                return 6 * panleP;
+            }else if(type.equals("H" + i) && i > 1){
+                return (i - 1) * 9 * panleP;
+            }
+        }
+        return 0;
+    }
+
+    //根据发电机功率判断最大充电电流
+    public int getMaxRechargCurrent(String type,int genPower) {
+        return genPower / (3 * 50 * (getPackagePower(type)/5000) );
+    }
+
 
 
 /* 产品套餐生成逻辑
@@ -77,8 +119,31 @@ public class MianProduct {
         return "false";
     }
 
-    //升级套餐
+    // 2.升级套餐
+    public String advancedPackage(String basePackage,int dayPower,int nightPower,int NEPATime,int genPower,double solarFactor){
 
+        //需要增加的电池数量
+        int addBattry_6; //6小时
+        int addBattry_12; //12小时
+
+
+        //夜晚的功率
+        for (int i = 1; i < 100; i++) {
+            //夜间电池100% 到放完支持6个小时需要的电池量
+            if (getBattryPower(basePackage) + 4800 * i - nightPower - getInverter() * 60 * 6 >= 6 ) {
+                addBattry_6 = i;
+            }
+            if (getBattryPower(basePackage) + 4800 * i - nightPower - getInverter() * 60 * 6 >= 12 ) {
+                addBattry_12 = i;
+            }
+
+            //白夜考虑市电和房屋朝向的情况电池从0%充满
+            if ((getBattryPower(basePackage) + dayPower + getInverter() * 60) <
+            getPanlePower(basePackage) * solarFactor + NEPATime * getMaxRechargCurrent(basePackage,genPower) ){
+
+            }
+        }
+    }
 
 
 

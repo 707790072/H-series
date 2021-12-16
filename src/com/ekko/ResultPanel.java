@@ -30,7 +30,7 @@ public class ResultPanel extends JPanel{
     JButton continuousButton = new JButton();
 
 
-    public ResultPanel(String packageType,int totalDayPower,int totalNightPower,int NEPATime,int genPower,int panleNumb,int orientation,int roofHeight) {
+    public ResultPanel(String packageType,int totalDayPower,int totalNightPower,int NEPATime,int genPower,int panleNumb,double orientation,int roofHeight) {
         super();
 
         rootPanel.add(basicButton);

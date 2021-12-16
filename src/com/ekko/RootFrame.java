@@ -103,11 +103,11 @@ public class RootFrame {
                             RootFrame.this.tabbedPane.addTab("结果", new ResultPanel(
                                     packageType,
                                     deivcesPanel.getTotalDayPower(),
-                                    deivcesPanel.getTotalDayPower(),
+                                    deivcesPanel.getTotalNightPower(),
                                     Integer.valueOf(deivcesPanel.textNEPA.getText()),
                                     Integer.valueOf(deivcesPanel.textGen.getText()),
-                                    Integer.valueOf(deivcesPanel.textGen.getText()),
                                     Integer.valueOf(deivcesPanel.getPanleNumb()),
+                                    Double.valueOf(deivcesPanel.getSolarFactor()),
                                     Integer.valueOf(deivcesPanel.textRoofHeight.getText())
                             ).rootPanel);
 
@@ -118,11 +118,11 @@ public class RootFrame {
                             RootFrame.this.tabbedPane.addTab("结果", new ResultPanel(
                                     packageType,
                                     deivcesPanel.getTotalDayPower(),
-                                    deivcesPanel.getTotalDayPower(),
+                                    deivcesPanel.getTotalNightPower(),
                                     Integer.valueOf(deivcesPanel.textNEPA.getText()),
                                     Integer.valueOf(deivcesPanel.textGen.getText()),
-                                    Integer.valueOf(deivcesPanel.textGen.getText()),
                                     Integer.valueOf(deivcesPanel.getPanleNumb()),
+                                    Double.valueOf(deivcesPanel.getSolarFactor()),
                                     Integer.valueOf(deivcesPanel.textRoofHeight.getText())
                             ).rootPanel);
                             RootFrame.this.tabbedPane.setSelectedIndex(1);

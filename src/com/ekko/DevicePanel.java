@@ -58,8 +58,6 @@ public class DevicePanel extends JPanel
     private int totalNightPower = 0;
     //最大铺设光伏板数量
     private int panleNumb = 0;
-    //房屋朝向
-    private int orientation;
 
 
     public int getTotalRatedPower() { return totalRatedPower; }
@@ -75,7 +73,14 @@ public class DevicePanel extends JPanel
     public int getPanleNumb() {
         return panleNumb;
     }
-    public int getOrientation() {return orientation; }
+    public double getSolarFactor() {
+        if(comOrientation.getSelectedItem().equals("North-South")) {
+            return 1.7;
+        }else if(comOrientation.getSelectedItem().equals("East-West")) {
+            return 2.2;
+        }
+        return 0;
+    }
 
     //设置字体
     Font TitlFont = new Font("Times New Roman",Font.BOLD,13);
@@ -458,6 +463,7 @@ public class DevicePanel extends JPanel
                         textDayTime[i].setBackground(backGround);
                         textNightTime[i].setBackground(backGround);
                         textNmuber[i].setBackground(backGround);
+
                     }
                 }
             }
@@ -514,8 +520,8 @@ public class DevicePanel extends JPanel
                         if(!textNmuber[i].getText().equals("0")){
                             ratedPower += Integer.parseInt(textPower[i].getText()) * Integer.parseInt(textNmuber[i].getText());
                             startPower += Integer.parseInt(textStartPower[i].getText()) * Integer.parseInt(textNmuber[i].getText());
-                            dayPower += Integer.parseInt(textDayTime[i].getText());
-                            nightPower += Integer.parseInt(textNightTime[i].getText());
+                            dayPower += startPower * Integer.parseInt(textDayTime[i].getText());
+                            nightPower += startPower * Integer.parseInt(textNightTime[i].getText());
                             resultLabel[0].setText(String.valueOf(ratedPower) + " W");
                             resultLabel[1].setText(String.valueOf(startPower) + " W");
                             resultLabel[2].setText(String.valueOf(dayPower) + " H");
@@ -710,13 +716,13 @@ public class DevicePanel extends JPanel
                     if(!textNmuber[i].getText().equals("0")){
                         ratedPower += Integer.parseInt(textPower[i].getText()) * Integer.parseInt(textNmuber[i].getText());
                         startPower += Integer.parseInt(textStartPower[i].getText()) * Integer.parseInt(textNmuber[i].getText());
-                        dayPower += Integer.parseInt(textDayTime[i].getText());
-                        nightPower += Integer.parseInt(textNightTime[i].getText());
+                        dayPower += ratedPower * Integer.parseInt(textDayTime[i].getText());
+                        nightPower +=ratedPower * Integer.parseInt(textNightTime[i].getText());
                     }else{
                         ratedPower -= Integer.parseInt(textPower[i].getText()) * Integer.parseInt(textNmuber[i].getText());
                         startPower -= Integer.parseInt(textStartPower[i].getText()) * Integer.parseInt(textNmuber[i].getText());
-                        dayPower -= Integer.parseInt(textDayTime[i].getText());
-                        nightPower -= Integer.parseInt(textNightTime[i].getText());
+                        dayPower -= ratedPower * Integer.parseInt(textDayTime[i].getText());
+                        nightPower -= ratedPower * Integer.parseInt(textNightTime[i].getText());
                     }
                     resultLabel[0].setText(String.valueOf(ratedPower) + " W");
                     resultLabel[1].setText(String.valueOf(startPower) + " W");
