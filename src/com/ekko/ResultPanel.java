@@ -51,12 +51,12 @@ public class ResultPanel extends JPanel{
         //升级套餐增加电池数量
         int addAdvancBattery = mianProduct.additionalBattery(packageType,totalRetedPower,totalNightPower);
         //升级套餐增加光伏板数量
-        int addAdvancPanle = mianProduct.additionalPanel(packageType,addAdvancBattery,NEPADayTime,solarFactor);
+        int addAdvancPanle = mianProduct.additionalPanel(packageType,addAdvancBattery,NEPADayTime,totalDayPower,solarFactor);
 
 
         //豪华套餐电池数量
-//        int luxuryAdditionalBattry = mianProduct.additionalBattery(packageType,totalNightPower);
-
+        int luxuryAdditionalBattry = mianProduct.luxuryBattery(packageType,totalRetedPower);
+        int luxuryAdditionalPanel = mianProduct.luxuryPanel(packageType,luxuryAdditionalBattry,totalDayPower,solarFactor);
 
         //Base套餐的显示
         String baseResultStr = "<html><body>" +
@@ -78,15 +78,15 @@ public class ResultPanel extends JPanel{
                 "Additional Solar Panels: " + addAdvancPanle  + "<br><br>" +
                 "<html><body>";
 
-        //advanced套餐的显示
+        //luxury套餐的显示
         String luxuryResultStr = "<html><body>" +
                 "Package Name: " + packageType + "<br><br>" +
                 "Inverter: " + mianProduct.getInverter() + "<br><br>" +
                 "2.5KWH Battery: " + mianProduct.getBattery_3KWH() + "<br><br>" +
                 "5KWH Battery: " + mianProduct.getBattery_5KWH() + "<br><br>" +
-                "Additional 5KWH Battery: " + addAdvancBattery + "<br><br>" +
+                "Additional 5KWH Battery: " + luxuryAdditionalBattry + "<br><br>" +
                 "Solar Panels: " + mianProduct.getSolarPanel() + "<br><br>" +
-                "Additional Solar Panels: " + addAdvancPanle  + "<br><br>" +
+                "Additional Solar Panels: " + luxuryAdditionalPanel  + "<br><br>" +
                 "<html><body>";
 
 

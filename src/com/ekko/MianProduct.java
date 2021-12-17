@@ -112,29 +112,30 @@ public class MianProduct {
     * */
     // 1.基础套餐判断
     public String getbasicPackage(int ratedPower,int startPower){
+        double ratedFactor = 0.7;
+        int startFactor = 1;
 
-        if(ratedPower < 3000 * 0.5 && startPower < 3000 * 0.7){
+        if(ratedPower < 3000 * ratedFactor && startPower < 3000 * startFactor){
             return "H1";
-        }else if(ratedPower < 5000 * 0.6 && startPower < 5000 * 0.8){
+        }else if(ratedPower < 5000 * ratedFactor && startPower < 5000 * startFactor){
             return "H2";
-        }else if(ratedPower < 10000 * 0.6 && startPower < 10000 * 0.8){
+        }else if(ratedPower < 10000 * ratedFactor && startPower < 10000 * startFactor){
             return "H3";
-        }else if(ratedPower < 15000 * 0.6 && startPower < 15000 * 0.8){
+        }else if(ratedPower < 15000 * ratedFactor && startPower < 15000 * startFactor){
             return "H4";
-        }else if(ratedPower < 20000 * 0.6 && startPower < 20000 * 0.8){
+        }else if(ratedPower < 20000 * ratedFactor && startPower < 20000 * startFactor){
             return "H5";
-        }else if(ratedPower < 20000 && startPower < 20000 ) {
+        }else if(ratedPower < 25000 * ratedFactor && startPower < 25000 * startFactor ) {
             return "H6";
         }
         return "false";
     }
 
-
+    // 2升级套餐
     // 升级套餐 电池
     public int additionalBattery(String basePackage,int totalRetedPower,int totalNightPower){
-
         //夜晚的功率
-        for (int i = 0; i < 50; i++) {
+        for (int i = 0; i < 100; i++) {
             //夜间电池100% 到放完
             if (getBattryPower(basePackage) + 4800 * i >= (totalNightPower + getInverter() * 60 * getNightAvgTime(totalRetedPower,totalNightPower))) {
                 return i;
@@ -143,26 +144,62 @@ public class MianProduct {
         return 0;
     }
     // 升级套餐 光伏板
-    public int additionalPanel(String basePackage,int addBattery,int NEPADayTime,double solarFactor){
-        for (int i = 0; i < 50; i++) {
+    public int additionalPanel(String basePackage,int addBattery,int NEPADayTime,int totalDayPower,double solarFactor){
+        for (int i = 0; i < 200; i++) {
             //到夜间电池充电到100%
-            if ((getBattryPower(basePackage) + addBattery * 4800 + getInverter() * 60 * 12) <
-            (getPanlePower(basePackage,addBattery) + i * 275) * solarFactor + NEPADayTime * 1500 ){
+            if ((getBattryPower(basePackage) + addBattery * 4800 + getInverter() * 60 * 12 + totalDayPower) <
+            (getPanlePower(basePackage,0) + i * 275) * solarFactor + NEPADayTime * getInverter() * 1500 ){
                 //判断是否大于每台逆变器支持光伏板最大数 24
-                if(i > getInverter() * 24){
-                    return getInverter() * 24;
+                if(i > getInverter() * 24 - getSolarPanel()){
+                    return getInverter() * 24 - getSolarPanel();
                 }else{
                     if(i % 3 == 0){
                         return i;
                     }else if(i % 3 == 1){
                         return i + 2;
-                    }else if(i % 3 == 1){
-                        return i + 2;
+                    }else if(i % 3 == 2){
+                        return i + 1;
                     }
                 }
             }
         }
+        return getInverter() * 24 - getSolarPanel();
+    }
+
+
+    //豪华套餐
+    //豪华电池
+    public int luxuryBattery(String basePackage,int totalRetedPower){
+        //夜晚的功率
+        for (int i = 0; i < 50; i++) {
+            //夜间电池100% 到放完
+            if (getBattryPower(basePackage) + 4800 * i >= (totalRetedPower * 10 + getInverter() * 60 * 12)) {
+                return i;
+            }
+        }
         return 0;
+    }
+    //豪华光伏板
+    public int luxuryPanel(String basePackage,int addBattery,int totalDayPower,double solarFactor){
+        for (int i = 0; i < 200; i++) {
+            //到夜间电池充电到100%
+            if ((getBattryPower(basePackage) + addBattery * 4800 + getInverter() * 60 * 12 + totalDayPower) <
+                    (getPanlePower(basePackage,0) + i * 275) * solarFactor){
+                //判断是否大于每台逆变器支持光伏板最大数 24
+                if(i > getInverter() * 24 - getSolarPanel()){
+                    return getInverter() * 24 - getSolarPanel();
+                }else{
+                    if(i % 3 == 0){
+                        return i;
+                    }else if(i % 3 == 1){
+                        return i + 2;
+                    }else if(i % 3 == 2){
+                        return i + 1;
+                    }
+                }
+            }
+        }
+        return getInverter() * 24 - getSolarPanel();
     }
 
 

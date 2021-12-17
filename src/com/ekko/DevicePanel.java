@@ -531,6 +531,21 @@ public class DevicePanel extends JPanel
                             }else{
                                 nightPower += Integer.parseInt(textPower[i].getText()) * Integer.parseInt(textNmuber[i].getText()) * Integer.parseInt(textNightTime[i].getText());
                             }
+                        }else{
+                            ratedPower -= Integer.parseInt(textPower[i].getText()) * Integer.parseInt(textNmuber[i].getText());
+                            startPower -= Integer.parseInt(textStartPower[i].getText()) * Integer.parseInt(textNmuber[i].getText());
+                            //白天和夜晚功率减去市电时间
+                            if(textDayNEPA.getText().length() > 0) {
+                                dayPower += Integer.parseInt(textPower[i].getText()) * Integer.parseInt(textNmuber[i].getText()) * (Integer.parseInt(textDayTime[i].getText()) - Integer.parseInt(textDayNEPA.getText()));
+                            }else{
+                                dayPower += Integer.parseInt(textPower[i].getText()) * Integer.parseInt(textNmuber[i].getText()) * Integer.parseInt(textDayTime[i].getText());
+                            }
+                            if(textNightNEPA.getText().length() > 0){
+                                nightPower += Integer.parseInt(textPower[i].getText()) * Integer.parseInt(textNmuber[i].getText()) * (Integer.parseInt(textNightTime[i].getText()) - Integer.parseInt(textNightNEPA.getText()));
+                            }else{
+                                nightPower += Integer.parseInt(textPower[i].getText()) * Integer.parseInt(textNmuber[i].getText()) * Integer.parseInt(textNightTime[i].getText());
+                            }
+                        }
                             resultLabel[0].setText(String.valueOf(ratedPower) + " W");
                             resultLabel[1].setText(String.valueOf(startPower) + " W");
                             resultLabel[2].setText(String.valueOf(dayPower) + " WH");
@@ -539,8 +554,7 @@ public class DevicePanel extends JPanel
                             totalStartPower = startPower;
                             totalDayPower = dayPower;
                             totalNightPower = nightPower;
-                        }
-                        lastTime ++;
+                            lastTime ++;
                     }
                     if(lastTime == 0){
                         resultLabel[0].setText("0");
@@ -695,6 +709,7 @@ public class DevicePanel extends JPanel
                     e.consume();
                 }else if(textDayNEPA.isFocusOwner() && textDayNEPA.getText().length() == 0){
                     textDayNEPA.setText("0");
+                    e.consume();
                 }else if(textDayNEPA.isFocusOwner() && textDayNEPA.getText().length() > 0 && e.getKeyChar() != KeyEvent.VK_BACK_SPACE){
                     if(Integer.parseInt(String.valueOf(textDayNEPA.getText()) + String.valueOf(e.getKeyChar())) < 12) {
                         textDayNEPA.setText(textDayNEPA.getText().replaceFirst("^0*", ""));
@@ -707,6 +722,7 @@ public class DevicePanel extends JPanel
                     e.consume();
                 }else if(textNightNEPA.isFocusOwner() && textNightNEPA.getText().length() == 0){
                     textNightNEPA.setText("0");
+                    e.consume();
                 }else if(textNightNEPA.isFocusOwner() && textNightNEPA.getText().length() > 0 && e.getKeyChar() != KeyEvent.VK_BACK_SPACE){
                     if(Integer.parseInt(String.valueOf(textNightNEPA.getText()) + String.valueOf(e.getKeyChar())) < 12) {
                         textNightNEPA.setText(textNightNEPA.getText().replaceFirst("^0*", ""));
