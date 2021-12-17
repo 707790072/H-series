@@ -6,6 +6,7 @@ import static java.awt.Font.PLAIN;
 
 public class ResultPanel extends JPanel{
 
+
     //设置字体
     Font TitlFont = new Font("Times New Roman",Font.BOLD,13);
     Font TitlFont2 = new Font("Times New Roman",PLAIN,12);
@@ -30,32 +31,36 @@ public class ResultPanel extends JPanel{
     JButton continuousButton = new JButton();
 
 
-    public ResultPanel(String packageType,int totalDayPower,int totalNightPower,int NEPADayTime,int NEPANightTime,int genPower,int panleNumb,double solarFactor) {
+    public ResultPanel(String packageType,int totalRetedPower,int totalDayPower,int totalNightPower,int NEPADayTime,int NEPANightTime,int genPower,int panleNumb,double solarFactor) {
         super();
 
         rootPanel.add(basicButton);
         rootPanel.add(advancedButton);
         rootPanel.add(luxuryButton);
-        rootPanel.add(continuousButton);
         //设置颜色
         basicButton.setBackground(bcakGround);
         advancedButton.setBackground(bcakGround);
         luxuryButton.setBackground(bcakGround);
-        continuousButton.setBackground(bcakGround);
+
 
         //接受结果的字符串
         MianProduct mianProduct = new MianProduct();
         //设置产品类型得到基础套餐包
         mianProduct.setpackageType(packageType);
-        //升级套餐电池数量
-        int advancedAdditionalBattry = mianProduct.additionalBattery(packageType,totalNightPower,1.5);
-        //豪华套餐电池数量
-        int luxuryAdditionalBattry = mianProduct.additionalBattery(packageType,totalNightPower,2);
 
-        int additionalPanel = mianProduct.additionalPanel(packageType,totalDayPower,NEPADayTime,solarFactor);
+        //升级套餐增加电池数量
+        int addAdvancBattery = mianProduct.additionalBattery(packageType,totalRetedPower,totalNightPower);
+        //升级套餐增加光伏板数量
+        int addAdvancPanle = mianProduct.additionalPanel(packageType,addAdvancBattery,NEPADayTime,solarFactor);
+
+
+        //豪华套餐电池数量
+//        int luxuryAdditionalBattry = mianProduct.additionalBattery(packageType,totalNightPower);
+
 
         //Base套餐的显示
         String baseResultStr = "<html><body>" +
+                "Package Name: " + packageType + "<br><br>" +
                 "Inverter: " + mianProduct.getInverter() + "<br><br>" +
                 "2.5KWH Battery: " + mianProduct.getBattery_3KWH() + "<br><br>" +
                 "5KWH Battery: " + mianProduct.getBattery_5KWH() + "<br><br>" +
@@ -64,22 +69,24 @@ public class ResultPanel extends JPanel{
 
         //advanced套餐的显示
         String advancedResultStr = "<html><body>" +
+                "Package Name: " + packageType + "<br><br>" +
                 "Inverter: " + mianProduct.getInverter() + "<br><br>" +
                 "2.5KWH Battery: " + mianProduct.getBattery_3KWH() + "<br><br>" +
                 "5KWH Battery: " + mianProduct.getBattery_5KWH() + "<br><br>" +
-                "Additional 5KWH Battery: " + advancedAdditionalBattry + "<br><br>" +
+                "Additional 5KWH Battery: " + addAdvancBattery + "<br><br>" +
                 "Solar Panels: " + mianProduct.getSolarPanel() + "<br><br>" +
-                "Additional Solar Panels: " + additionalPanel + "<br><br>" +
+                "Additional Solar Panels: " + addAdvancPanle  + "<br><br>" +
                 "<html><body>";
 
         //advanced套餐的显示
         String luxuryResultStr = "<html><body>" +
+                "Package Name: " + packageType + "<br><br>" +
                 "Inverter: " + mianProduct.getInverter() + "<br><br>" +
                 "2.5KWH Battery: " + mianProduct.getBattery_3KWH() + "<br><br>" +
                 "5KWH Battery: " + mianProduct.getBattery_5KWH() + "<br><br>" +
-                "Additional 5KWH Battery: " + luxuryAdditionalBattry + "<br><br>" +
+                "Additional 5KWH Battery: " + addAdvancBattery + "<br><br>" +
                 "Solar Panels: " + mianProduct.getSolarPanel() + "<br><br>" +
-                "Additional Solar Panels: " + additionalPanel + "<br><br>" +
+                "Additional Solar Panels: " + addAdvancPanle  + "<br><br>" +
                 "<html><body>";
 
 

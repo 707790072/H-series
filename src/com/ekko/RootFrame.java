@@ -12,7 +12,8 @@ public class RootFrame {
     //设置框架
     JFrame frame = new JFrame("123");
     //结果面板
-    ResultPanel resultPanel = new ResultPanel("false",0,0,0,0,0,0,0);
+    ResultPanel resultPanel = new ResultPanel("false",0,0,
+            0, 0, 0,0,0,0);
     //Tab
     JTabbedPane tabbedPane = new JTabbedPane(SwingConstants.LEFT,JTabbedPane.WRAP_TAB_LAYOUT);
     //设备输入面板
@@ -89,6 +90,7 @@ public class RootFrame {
                         && deivcesPanel.textDayNEPA.getText().length() > 0 && deivcesPanel.textGen.getText().length() > 0
                         && deivcesPanel.textRoofArea.getText().length() > 0 && deivcesPanel.comOrientation.getSelectedIndex() > -1){
 
+                    //生成产品基础套餐包
                     MianProduct mianProduct = new MianProduct();
                     String packageType = mianProduct.getbasicPackage(deivcesPanel.getTotalRatedPower(),deivcesPanel.getTotalStartPower());
 
@@ -102,6 +104,7 @@ public class RootFrame {
                             //给ResultPanel赋值
                             RootFrame.this.tabbedPane.addTab("结果", new ResultPanel(
                                     packageType,
+                                    deivcesPanel.getTotalRatedPower(),
                                     deivcesPanel.getTotalDayPower(),
                                     deivcesPanel.getTotalNightPower(),
                                     Integer.valueOf(deivcesPanel.textDayNEPA.getText()),
@@ -117,6 +120,7 @@ public class RootFrame {
                             //给ResultPanel赋值
                             RootFrame.this.tabbedPane.addTab("结果", new ResultPanel(
                                     packageType,
+                                    deivcesPanel.getTotalRatedPower(),
                                     deivcesPanel.getTotalDayPower(),
                                     deivcesPanel.getTotalNightPower(),
                                     Integer.valueOf(deivcesPanel.textDayNEPA.getText()),
