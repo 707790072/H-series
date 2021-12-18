@@ -521,30 +521,13 @@ public class DevicePanel extends JPanel
                         if(!textNmuber[i].getText().equals("0")){
                             ratedPower += Integer.parseInt(textPower[i].getText()) * Integer.parseInt(textNmuber[i].getText());
                             startPower += Integer.parseInt(textStartPower[i].getText()) * Integer.parseInt(textNmuber[i].getText());
-                            if(textDayNEPA.getText().length() > 0) {
-                                dayPower += Integer.parseInt(textPower[i].getText()) * Integer.parseInt(textNmuber[i].getText()) * (Integer.parseInt(textDayTime[i].getText()) - Integer.parseInt(textDayNEPA.getText()));
-                            }else{
-                                dayPower += Integer.parseInt(textPower[i].getText()) * Integer.parseInt(textNmuber[i].getText()) * Integer.parseInt(textDayTime[i].getText());
-                            }
-                            if(textNightNEPA.getText().length() > 0){
-                                nightPower += Integer.parseInt(textPower[i].getText()) * Integer.parseInt(textNmuber[i].getText()) * (Integer.parseInt(textNightTime[i].getText()) - Integer.parseInt(textNightNEPA.getText()));
-                            }else{
-                                nightPower += Integer.parseInt(textPower[i].getText()) * Integer.parseInt(textNmuber[i].getText()) * Integer.parseInt(textNightTime[i].getText());
-                            }
-                        }else{
+                            dayPower += Integer.parseInt(textPower[i].getText()) * Integer.parseInt(textNmuber[i].getText()) * Integer.parseInt(textDayTime[i].getText());
+                            nightPower += Integer.parseInt(textPower[i].getText()) * Integer.parseInt(textNmuber[i].getText()) * Integer.parseInt(textNightTime[i].getText());
+                        }else {
                             ratedPower -= Integer.parseInt(textPower[i].getText()) * Integer.parseInt(textNmuber[i].getText());
                             startPower -= Integer.parseInt(textStartPower[i].getText()) * Integer.parseInt(textNmuber[i].getText());
-                            //白天和夜晚功率减去市电时间
-                            if(textDayNEPA.getText().length() > 0) {
-                                dayPower += Integer.parseInt(textPower[i].getText()) * Integer.parseInt(textNmuber[i].getText()) * (Integer.parseInt(textDayTime[i].getText()) - Integer.parseInt(textDayNEPA.getText()));
-                            }else{
-                                dayPower += Integer.parseInt(textPower[i].getText()) * Integer.parseInt(textNmuber[i].getText()) * Integer.parseInt(textDayTime[i].getText());
-                            }
-                            if(textNightNEPA.getText().length() > 0){
-                                nightPower += Integer.parseInt(textPower[i].getText()) * Integer.parseInt(textNmuber[i].getText()) * (Integer.parseInt(textNightTime[i].getText()) - Integer.parseInt(textNightNEPA.getText()));
-                            }else{
-                                nightPower += Integer.parseInt(textPower[i].getText()) * Integer.parseInt(textNmuber[i].getText()) * Integer.parseInt(textNightTime[i].getText());
-                            }
+                            dayPower -= Integer.parseInt(textPower[i].getText()) * Integer.parseInt(textNmuber[i].getText()) * Integer.parseInt(textDayTime[i].getText());
+                            nightPower -= Integer.parseInt(textPower[i].getText()) * Integer.parseInt(textNmuber[i].getText()) * Integer.parseInt(textNightTime[i].getText());
                         }
                             resultLabel[0].setText(String.valueOf(ratedPower) + " W");
                             resultLabel[1].setText(String.valueOf(startPower) + " W");
@@ -555,16 +538,16 @@ public class DevicePanel extends JPanel
                             totalDayPower = dayPower;
                             totalNightPower = nightPower;
                             lastTime ++;
-                    }
-                    if(lastTime == 0){
-                        resultLabel[0].setText("0");
-                        resultLabel[1].setText("0");
-                        resultLabel[2].setText("0");
-                        resultLabel[3].setText("0");
-                        totalRatedPower = 0;
-                        totalStartPower = 0;
-                        totalDayPower = 0;
-                        totalNightPower = 0;
+                            if(lastTime == 0) {
+                                resultLabel[0].setText("0");
+                                resultLabel[1].setText("0");
+                                resultLabel[2].setText("0");
+                                resultLabel[3].setText("0");
+                                totalRatedPower = 0;
+                                totalStartPower = 0;
+                                totalDayPower = 0;
+                                totalNightPower = 0;
+                            }
                     }
                 }
             }
@@ -753,34 +736,16 @@ public class DevicePanel extends JPanel
                     if(!textNmuber[i].getText().equals("0")){
                         ratedPower += Integer.parseInt(textPower[i].getText()) * Integer.parseInt(textNmuber[i].getText());
                         startPower += Integer.parseInt(textStartPower[i].getText()) * Integer.parseInt(textNmuber[i].getText());
-                        //白天和夜晚功率减去市电时间
-                        if(textDayNEPA.getText().length() > 0) {
-                            dayPower += Integer.parseInt(textPower[i].getText()) * Integer.parseInt(textNmuber[i].getText()) * (Integer.parseInt(textDayTime[i].getText()) - Integer.parseInt(textDayNEPA.getText()));
-                        }else{
-                            dayPower += Integer.parseInt(textPower[i].getText()) * Integer.parseInt(textNmuber[i].getText()) * Integer.parseInt(textDayTime[i].getText());
-                        }
-                        if(textNightNEPA.getText().length() > 0){
-                            nightPower += Integer.parseInt(textPower[i].getText()) * Integer.parseInt(textNmuber[i].getText()) * (Integer.parseInt(textNightTime[i].getText()) - Integer.parseInt(textNightNEPA.getText()));
-                        }else{
-                            nightPower += Integer.parseInt(textPower[i].getText()) * Integer.parseInt(textNmuber[i].getText()) * Integer.parseInt(textNightTime[i].getText());
-                        }
+                        dayPower += Integer.parseInt(textPower[i].getText()) * Integer.parseInt(textNmuber[i].getText()) * Integer.parseInt(textDayTime[i].getText());
+                        nightPower += Integer.parseInt(textPower[i].getText()) * Integer.parseInt(textNmuber[i].getText()) * Integer.parseInt(textNightTime[i].getText());
                     }else{
                         ratedPower -= Integer.parseInt(textPower[i].getText()) * Integer.parseInt(textNmuber[i].getText());
                         startPower -= Integer.parseInt(textStartPower[i].getText()) * Integer.parseInt(textNmuber[i].getText());
-                        //白天和夜晚功率减去市电时间
-                        if(textDayNEPA.getText().length() > 0) {
-                            dayPower += Integer.parseInt(textPower[i].getText()) * Integer.parseInt(textNmuber[i].getText()) * (Integer.parseInt(textDayTime[i].getText()) - Integer.parseInt(textDayNEPA.getText()));
-                        }else{
-                            dayPower += Integer.parseInt(textPower[i].getText()) * Integer.parseInt(textNmuber[i].getText()) * Integer.parseInt(textDayTime[i].getText());
-                        }
-                        if(textNightNEPA.getText().length() > 0){
-                            nightPower += Integer.parseInt(textPower[i].getText()) * Integer.parseInt(textNmuber[i].getText()) * (Integer.parseInt(textNightTime[i].getText()) - Integer.parseInt(textNightNEPA.getText()));
-                        }else{
-                            nightPower += Integer.parseInt(textPower[i].getText()) * Integer.parseInt(textNmuber[i].getText()) * Integer.parseInt(textNightTime[i].getText());
-                        }
+                        dayPower -= Integer.parseInt(textPower[i].getText()) * Integer.parseInt(textNmuber[i].getText()) * Integer.parseInt(textDayTime[i].getText());
+                        nightPower -= Integer.parseInt(textPower[i].getText()) * Integer.parseInt(textNmuber[i].getText()) * Integer.parseInt(textNightTime[i].getText());
                     }
-                    if(dayPower > 0) {}else{ dayPower = 0;}
-                    if(nightPower > 0){}else{ nightPower = 0;}
+//                    if(dayPower > 0) {}else{ dayPower = 0;}
+//                    if(nightPower > 0){}else{ nightPower = 0;}
                     resultLabel[0].setText(String.valueOf(ratedPower) + " W");
                     resultLabel[1].setText(String.valueOf(startPower) + " W");
                     resultLabel[2].setText(String.valueOf(dayPower) + " WH");

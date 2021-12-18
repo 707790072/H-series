@@ -65,7 +65,7 @@ public class MianProduct {
             if(type.equals("H1")){
                 return 6 * (panleP + add);
             }else if(type.equals("H" + i) && i > 1){
-                return ((i - 1) + add) * 9 * panleP;
+                return (((i - 1)) * 9 + add) * panleP;
             }
         }
         return 0;
@@ -80,12 +80,14 @@ public class MianProduct {
     }
 
     //判断夜晚使用时常
-    public double getNightAvgTime(int totalRetedPower,int totalNightPower) {
+    public double getAvgTime(int totalRetedPower,int totalDayPower,int totalNightPower) {
         if (totalNightPower > 0) {
-            return totalRetedPower / (totalNightPower + getInverter() * 60 * 6);
+            return totalRetedPower / (totalNightPower + totalDayPower + getInverter() * 60 * 24);
         }
         return 0;
     }
+
+
 
 
 /* 产品套餐生成逻辑
@@ -112,7 +114,7 @@ public class MianProduct {
     * */
     // 1.基础套餐判断
     public String getbasicPackage(int ratedPower,int startPower){
-        double ratedFactor = 0.7;
+        double ratedFactor = 0.8;
         int startFactor = 1;
 
         if(ratedPower < 3000 * ratedFactor && startPower < 3000 * startFactor){
@@ -131,24 +133,14 @@ public class MianProduct {
         return "false";
     }
 
-    // 2升级套餐
-    // 升级套餐 电池
-    public int additionalBattery(String basePackage,int totalRetedPower,int totalNightPower){
-        //夜晚的功率
-        for (int i = 0; i < 100; i++) {
-            //夜间电池100% 到放完
-            if (getBattryPower(basePackage) + 4800 * i >= (totalNightPower + getInverter() * 60 * getNightAvgTime(totalRetedPower,totalNightPower))) {
-                return i;
-            }
-        }
-        return 0;
-    }
+    // 2.升级套餐
     // 升级套餐 光伏板
-    public int additionalPanel(String basePackage,int addBattery,int NEPADayTime,int totalDayPower,double solarFactor){
+    public int additionalPanel(String basePackage,int totalDayPower,int totalNightPower,
+                               int NEPADayTime,int NEPANightTime,double solarFactor){
         for (int i = 0; i < 200; i++) {
             //到夜间电池充电到100%
-            if ((getBattryPower(basePackage) + addBattery * 4800 + getInverter() * 60 * 12 + totalDayPower) <
-            (getPanlePower(basePackage,0) + i * 275) * solarFactor + NEPADayTime * getInverter() * 1500 ){
+            if ((totalDayPower + totalNightPower + getInverter() * 60 * 12 + totalDayPower) <
+            (getPanlePower(basePackage,i)) * solarFactor + (NEPADayTime + NEPANightTime) * 1500 * getInverter()){
                 //判断是否大于每台逆变器支持光伏板最大数 24
                 if(i > getInverter() * 24 - getSolarPanel()){
                     return getInverter() * 24 - getSolarPanel();
@@ -164,27 +156,36 @@ public class MianProduct {
             }
         }
         return getInverter() * 24 - getSolarPanel();
+    }
+    // 升级套餐 电池
+    public int additionalBattery(String basePackage,int totalDayPower,int NEPADayTime,int totalNightPower,int NEPANightTime,int addPanel){
+        int day = -1;
+        int night = -1;
+        //夜晚的功率
+        for (int i = 0; i < 50; i++) {
+            if (getBattryPower(basePackage) + 4800 * i  > totalDayPower * (1 - (double)NEPADayTime / 12) + getInverter() * 60 * 12
+                    - getPanlePower(basePackage,addPanel)) {
+                day = i;
+                break;
+            }
+        }
+        for (int i = 0; i < 50; i++) {
+            if (getBattryPower(basePackage) + 4800 * i  > totalNightPower * (1 - (double)NEPANightTime / 12) + getInverter() * 60 * 12){
+                night = i;
+                break;
+            }
+        }
+        if(day > night){return day;}else{return night;}
     }
 
 
     //豪华套餐
-    //豪华电池
-    public int luxuryBattery(String basePackage,int totalRetedPower){
-        //夜晚的功率
-        for (int i = 0; i < 50; i++) {
-            //夜间电池100% 到放完
-            if (getBattryPower(basePackage) + 4800 * i >= (totalRetedPower * 10 + getInverter() * 60 * 12)) {
-                return i;
-            }
-        }
-        return 0;
-    }
     //豪华光伏板
-    public int luxuryPanel(String basePackage,int addBattery,int totalDayPower,double solarFactor){
+    public int luxuryPanel(String basePackage,int totalDayPower,int totalNightPower,double solarFactor){
         for (int i = 0; i < 200; i++) {
             //到夜间电池充电到100%
-            if ((getBattryPower(basePackage) + addBattery * 4800 + getInverter() * 60 * 12 + totalDayPower) <
-                    (getPanlePower(basePackage,0) + i * 275) * solarFactor){
+            if ((totalDayPower + totalNightPower + getInverter() * 60 * 12 + totalDayPower) <
+                    (getPanlePower(basePackage,i)) * solarFactor ){
                 //判断是否大于每台逆变器支持光伏板最大数 24
                 if(i > getInverter() * 24 - getSolarPanel()){
                     return getInverter() * 24 - getSolarPanel();
@@ -202,7 +203,44 @@ public class MianProduct {
         return getInverter() * 24 - getSolarPanel();
     }
 
+    public int luxuryBattry(String basePackage,int totalDayPower,int totalNightPower,int addPanel){
+        int day = -1;
+        int night = -1;
+        //夜晚的功率
+        for (int i = 0; i < 50; i++) {
+            if (getBattryPower(basePackage) + 4800 * i  > totalDayPower + getInverter() * 60 * 12
+                    - getPanlePower(basePackage,addPanel)) {
+                day = i;
+                break;
+            }
+        }
+        for (int i = 0; i < 50; i++) {
+            if (getBattryPower(basePackage) + 4800 * i  > totalNightPower + getInverter() * 60 * 12){
+                night = i;
+                break;
+            }
+        }
+        if(day > night){return day;}else{return night;}
+    }
 
+    //
+//    public int test(String packageType,int totalRetedPower,int totalDayPower,int totalNightPower,
+//                    int NEPADayTime,int NEPANightTime,int genPower,int panleNumb,double solarFactor){
+//        int bat = 10001;
+//        setpackageType(packageType);
+//        //光伏
+//        for(int p = 0;p < getInverter() * 24;p++){
+//            //电池
+//            for(int b = 0;b < 50;b++){
+//                if(totalDayPower + totalNightPower + getInverter() * 60 * 24 + getBattryPower(packageType) + b * 4800 <
+//                        (NEPADayTime + NEPANightTime) * 1500 + getPanlePower(packageType,p) && p < getInverter() * 24){
+//                    bat = b;
+//                    return bat;
+//                }else{return 10001;}
+//            }
+//        }
+//        return 10001;
+//    }
 
 
     public int getId() {

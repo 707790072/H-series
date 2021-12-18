@@ -96,7 +96,7 @@ public class RootFrame {
 
                     //判断套餐类型是否是false
                     if(packageType.equals("false")){
-                        JOptionPane.showMessageDialog(null, "Exceeds the standard package type (20KW)", "ERROR", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(null, "Exceeds the standard package type (25KW)", "ERROR", JOptionPane.ERROR_MESSAGE);
                     }else{
                         if(RootFrame.this.tabbedPane.getTabCount() > 1) {
                             //删除之前的结果
