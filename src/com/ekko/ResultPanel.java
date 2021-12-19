@@ -8,8 +8,7 @@ public class ResultPanel extends JPanel{
 
 
     //设置字体
-//    Font TitlFont = new Font("Times New Roman",Font.BOLD,15);
-    Font TitlFont = new Font("Times New Roman",Font.BOLD,16);
+    Font TitlFont = new Font("Times New Roman",Font.BOLD,17);
     Color titilColor = new Color(139,126,102);
     //背景颜色
     Color bcakGround = new Color(255,250,205);
@@ -83,19 +82,25 @@ public class ResultPanel extends JPanel{
                 "<html><body>";
 
         //luxury套餐的显示
-        String luxuryResultStr = "<html><body>" +
-                "<div style=\"color:#000000\t\">" +
-                 packageType + "<br><br><br><br>" +
-                "Inverter: " + mianProduct.getInverter() + "<br><br>" +
-                "2.5KWH Battery: " + mianProduct.getBattery_3KWH() + "<br><br>" +
-                "5KWH Battery: " + mianProduct.getBattery_5KWH() + "<br><br>" +
-                "Solar Panels: " + mianProduct.getSolarPanel() + "<br><br><br><br>" +
-                "<div style=\"color:#000000\t\">" +
-                "ADDITIONAL :  <br><br>" +
+        String luxuryResultStr =
+                "<html><body>" +
+                "<div style=\"font-size:15px;color:#000000\">----------&nbsp;&nbsp;" + packageType + "&nbsp;&nbsp;----------</div><br><br>" +
+
+                "<div style =\"width:100px;border:1px solid black\">" +
+                    "<div style=\"width:100px;height:20px;float:left;display:inline;border:1px solid black;\">Inverter &nbsp;:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + "</div>" +
+                    "<div style=\"width:100px;height:20px;float:left;display:inline;border:1px solid black\">" + mianProduct.getInverter() + "</div>" +
+                "</div>" +
+
+                "2.5KWH Battery:" + mianProduct.getBattery_3KWH() + "<br><br>" +
+
+                "5KWH Battery:" + mianProduct.getBattery_5KWH() + "<br><br>" +
+
+                "Solar Panels:" + mianProduct.getSolarPanel() + "<br><br><br>" +
+
+                "<div style=\"font-size:15px;color:#000000\">----&nbsp;ADDITIONAL&nbsp;----</div><br><br>" +
                 "5KWH Battery: " + luxuryBattry + "<br><br>" +
                 "Solar Panels: " + luxuryPanel  + "<br><br>" +
-                "<div style=\"color:#000000\">" +
-                "<html><body>";
+                "<body><html>";
 
 
         //结果显示在Button的Text内部
