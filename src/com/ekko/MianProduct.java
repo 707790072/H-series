@@ -61,14 +61,37 @@ public class MianProduct {
     //套餐类型 获取光伏板功率
     public int getPanlePower(String type,int add) {
         int panleP = 275;
-        for(int i = 1;i <= 6;i++){
-            if(type.equals("H1")){
-                return 6 * (panleP + add);
-            }else if(type.equals("H" + i) && i > 1){
-                return (((i - 1)) * 9 + add) * panleP;
-            }
+        int result;
+        switch(type){
+            case "H1":
+                result = (6 + add) * panleP;
+                break;
+
+            case "H2":
+                result = (9 + add) * panleP;
+                break;
+
+            case "H3":
+                result = (9 + add) * panleP;
+                break;
+
+            case "H4":
+                result = (9 + add) * panleP;
+                break;
+
+            case "H5":
+                result = (9 + add) * panleP;
+                break;
+
+            case "H6":
+                result = (9 + add) * panleP;
+                break;
+
+            default:
+                result = -1;
+                break;
         }
-        return 0;
+        return result;
     }
 
     //根据发电机功率判断最大充电电流

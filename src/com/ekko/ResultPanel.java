@@ -59,47 +59,93 @@ public class ResultPanel extends JPanel{
         int luxuryBattry = mianProduct.luxuryBattry(packageType,totalDayPower,totalNightPower,luxuryPanel);
 
         //Base套餐的显示
-        String baseResultStr = "<html><body>" +
-                "Package Name: " + packageType + "<br><br>" +
-                "Inverter: " + mianProduct.getInverter() + "<br><br>" +
-                "2.5KWH Battery: " + mianProduct.getBattery_3KWH() + "<br><br>" +
-                "5KWH Battery: " + mianProduct.getBattery_5KWH() + "<br><br>" +
-                "Solar Panels: " + mianProduct.getSolarPanel() + "<br><br><br><br><br><br><br><br><br><br>" +
+        String baseResultStr =
+                "<html><body>" +
+                        "<div style=\"font-size:15px;color:#000000\">-----------&nbsp;&nbsp;" + packageType + "&nbsp;&nbsp;-----------</div><br><br>" +
+
+                        "<div style=\"width:50px;height:25px;float:left;display:inline;border:1px solid black;\">" +
+                        "Inverter&nbsp;:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" +
+                        mianProduct.getInverter() + "</div><br>" +
+
+                        "<div style=\"width:50px;height:25px;float:left;display:inline;border:1px solid black;\">" +
+                        "2.5kwh Battery&nbsp;:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" +
+                        mianProduct.getBattery_3KWH() + "</div><br>" +
+
+                        "<div style=\"width:50px;height:25px;float:left;display:inline;border:1px solid black;\">" +
+                        "5kwh Battery&nbsp;:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" +
+                        mianProduct.getBattery_5KWH() + "</div><br>" +
+
+                        "<div style=\"width:50px;height:25px;float:left;display:inline;border:1px solid black;\">" +
+                        "Solar Panels&nbsp;:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" +
+                        mianProduct.getSolarPanel() + "</div><br><br><br><br><br><br><br><br>" +
                 "<html><body>";
 
         //advanced套餐的显示
-        String advancedResultStr = "<html><body>" +
-                "Package Name: " + packageType + "<br><br>" +
-                "Inverter: " + mianProduct.getInverter() + "<br><br>" +
-                "2.5KWH Battery: " + mianProduct.getBattery_3KWH() + "<br><br>" +
-                "5KWH Battery: " + mianProduct.getBattery_5KWH() + "<br><br>" +
-                "Solar Panels: " + mianProduct.getSolarPanel() + "<br><br><br><br>" +
-                "<div style=\"color:#000000\t\">" +
-                "ADDITIONAL :  <br><br>" +
-                "5KWH Battery: " + addAdvancBattery + "<br><br>" +
-                "Solar Panels: " + addAdvancPanle  + "<br><br>" +
-                "<div style=\"color:#000000\">" +
-                "<html><body>";
+        String advancedResultStr =
+                "<html><body>" +
+                "<div style=\"font-size:15px;color:#000000\">-----------&nbsp;&nbsp;" + packageType + "&nbsp;&nbsp;-----------</div><br><br>" +
+
+                "<div style=\"width:50px;height:25px;float:left;display:inline;border:1px solid black;\">" +
+                "Inverter&nbsp;:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" +
+                mianProduct.getInverter() + "</div><br>" +
+
+                "<div style=\"width:50px;height:25px;float:left;display:inline;border:1px solid black;\">" +
+                "2.5kwh Battery&nbsp;:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" +
+                mianProduct.getBattery_3KWH() + "</div><br>" +
+
+                "<div style=\"width:50px;height:25px;float:left;display:inline;border:1px solid black;\">" +
+                "5kwh Battery&nbsp;:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" +
+                mianProduct.getBattery_5KWH() + "</div><br>" +
+
+                "<div style=\"width:50px;height:25px;float:left;display:inline;border:1px solid black;\">" +
+                "Solar Panels&nbsp;:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" +
+                mianProduct.getSolarPanel() + "</div><br>" +
+
+
+                "<div style=\"font-size:15px;color:#000000\">----&nbsp;ADDITIONAL&nbsp;----</div><br>" +
+
+                "<div style=\"width:50px;height:25px;float:left;display:inline;border:1px solid black;\">" +
+                "5kwh Battery&nbsp;:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" +
+                addAdvancBattery + "</div><br>" +
+
+                "<div style=\"width:50px;height:25px;float:left;display:inline;border:1px solid black;\">" +
+                "Solar Panels&nbsp;:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" +
+                addAdvancPanle + "</div><br>" +
+
+                "<body><html>";
 
         //luxury套餐的显示
         String luxuryResultStr =
                 "<html><body>" +
-                "<div style=\"font-size:15px;color:#000000\">----------&nbsp;&nbsp;" + packageType + "&nbsp;&nbsp;----------</div><br><br>" +
+                "<div style=\"font-size:15px;color:#000000\">-----------&nbsp;&nbsp;" + packageType + "&nbsp;&nbsp;-----------</div><br><br>" +
 
-                "<div style =\"width:100px;border:1px solid black\">" +
-                    "<div style=\"width:100px;height:20px;float:left;display:inline;border:1px solid black;\">Inverter &nbsp;:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + "</div>" +
-                    "<div style=\"width:100px;height:20px;float:left;display:inline;border:1px solid black\">" + mianProduct.getInverter() + "</div>" +
-                "</div>" +
+                "<div style=\"width:50px;height:25px;float:left;display:inline;border:1px solid black;\">" +
+                "Inverter&nbsp;:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" +
+                mianProduct.getInverter() + "</div><br>" +
 
-                "2.5KWH Battery:" + mianProduct.getBattery_3KWH() + "<br><br>" +
+                "<div style=\"width:50px;height:25px;float:left;display:inline;border:1px solid black;\">" +
+                "2.5kwh Battery&nbsp;:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" +
+                mianProduct.getBattery_3KWH() + "</div><br>" +
 
-                "5KWH Battery:" + mianProduct.getBattery_5KWH() + "<br><br>" +
+                "<div style=\"width:50px;height:25px;float:left;display:inline;border:1px solid black;\">" +
+                "5kwh Battery&nbsp;:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" +
+                mianProduct.getBattery_5KWH() + "</div><br>" +
 
-                "Solar Panels:" + mianProduct.getSolarPanel() + "<br><br><br>" +
+                "<div style=\"width:50px;height:25px;float:left;display:inline;border:1px solid black;\">" +
+                "Solar Panels&nbsp;:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" +
+                mianProduct.getSolarPanel() + "</div><br>" +
 
-                "<div style=\"font-size:15px;color:#000000\">----&nbsp;ADDITIONAL&nbsp;----</div><br><br>" +
-                "5KWH Battery: " + luxuryBattry + "<br><br>" +
-                "Solar Panels: " + luxuryPanel  + "<br><br>" +
+
+                "<div style=\"font-size:15px;color:#000000\">----&nbsp;ADDITIONAL&nbsp;----</div><br>" +
+
+                "<div style=\"width:50px;height:25px;float:left;display:inline;border:1px solid black;\">" +
+                "5kwh Battery&nbsp;:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" +
+                luxuryBattry + "</div><br>" +
+
+                "<div style=\"width:50px;height:25px;float:left;display:inline;border:1px solid black;\">" +
+                "Solar Panels&nbsp;:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" +
+                luxuryPanel + "</div><br>" +
+
                 "<body><html>";
 
 
