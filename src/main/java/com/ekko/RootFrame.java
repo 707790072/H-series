@@ -13,7 +13,7 @@ public class RootFrame {
     JFrame frame = new JFrame("123");
     //结果面板
     ResultPanel resultPanel = new ResultPanel("false",0,0,
-            0, 0, 0,0,0,0);
+            0, 0, 0,0,0,0,null);
     //Tab
     JTabbedPane tabbedPane = new JTabbedPane(SwingConstants.LEFT,JTabbedPane.WRAP_TAB_LAYOUT);
     //设备输入面板
@@ -74,13 +74,52 @@ public class RootFrame {
         frame.setResizable(false);
     }
 
-
+    //按钮出发事件
     class ButtonActionListener implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
+
             //Button点击触发事件
             if(deivcesPanel.resultButton.isFocusOwner()){
+
+                //定义接收的二位数组
+                String[][] arrDevice = new String[20][6];
+                //获取Device和Resilt的页面信息
+                for(int i = 0;i < 20; i++){
+                    for(int r = 0;r < 6 ;r++){
+                        if(deivcesPanel.devicesCom[i].getSelectedIndex() > -1) {
+                            switch (r) {
+                                case 0:
+                                    arrDevice[i][r] = String.valueOf(deivcesPanel.devicesCom[i].getSelectedItem());
+                                    break;
+
+                                case 1:
+                                    arrDevice[i][r] = deivcesPanel.textPower[i].getText();
+                                    break;
+
+                                case 2:
+                                    arrDevice[i][r] = deivcesPanel.textStartPower[i].getText();
+                                    break;
+
+                                case 3:
+                                    arrDevice[i][r] = deivcesPanel.textNmuber[i].getText();
+                                    break;
+
+                                case 4:
+                                    arrDevice[i][r] = deivcesPanel.textDayTime[i].getText();
+                                    break;
+
+                                case 5:
+                                    arrDevice[i][r] = deivcesPanel.textNightTime[i].getText();
+                                    break;
+
+                            }
+                        }
+                    }
+                }
+
+
                 /* 产品套餐生成逻辑
                 * 1. 基础套餐判断条件
                     1.1 开启功率必须小于套餐逆变器的80%
@@ -90,7 +129,6 @@ public class RootFrame {
                         && deivcesPanel.textDayNEPA.getText().length() > 0 && deivcesPanel.textGen.getText().length() > 0
                         && deivcesPanel.textRoofArea.getText().length() > 0 && deivcesPanel.comOrientation.getSelectedIndex() > -1){
 
-                    //生成产品基础套餐包
                     MianProduct mianProduct = new MianProduct();
                     String packageType = mianProduct.getbasicPackage(deivcesPanel.getTotalRatedPower(),deivcesPanel.getTotalStartPower());
 
@@ -111,7 +149,8 @@ public class RootFrame {
                                     Integer.valueOf(deivcesPanel.textNightNEPA.getText()),
                                     Integer.valueOf(deivcesPanel.textGen.getText()),
                                     Integer.valueOf(deivcesPanel.getPanleNumb()),
-                                    Double.valueOf(deivcesPanel.getSolarFactor())
+                                    Double.valueOf(deivcesPanel.getSolarFactor()),
+                                    arrDevice
                             ).rootPanel);
 
                             RootFrame.this.tabbedPane.setSelectedIndex(1);
@@ -127,7 +166,8 @@ public class RootFrame {
                                     Integer.valueOf(deivcesPanel.textNightNEPA.getText()),
                                     Integer.valueOf(deivcesPanel.textGen.getText()),
                                     Integer.valueOf(deivcesPanel.getPanleNumb()),
-                                    Double.valueOf(deivcesPanel.getSolarFactor())
+                                    Double.valueOf(deivcesPanel.getSolarFactor()),
+                                    arrDevice
                             ).rootPanel);
                             RootFrame.this.tabbedPane.setSelectedIndex(1);
                         }
