@@ -223,25 +223,6 @@ public class MianProduct {
         if(day > night){return day;}else{return night;}
     }
 
-    //
-//    public int test(String packageType,int totalRetedPower,int totalDayPower,int totalNightPower,
-//                    int NEPADayTime,int NEPANightTime,int genPower,int panleNumb,double solarFactor){
-//        int bat = 10001;
-//        setpackageType(packageType);
-//        //光伏
-//        for(int p = 0;p < getInverter() * 24;p++){
-//            //电池
-//            for(int b = 0;b < 50;b++){
-//                if(totalDayPower + totalNightPower + getInverter() * 60 * 24 + getBattryPower(packageType) + b * 4800 <
-//                        (NEPADayTime + NEPANightTime) * 1500 + getPanlePower(packageType,p) && p < getInverter() * 24){
-//                    bat = b;
-//                    return bat;
-//                }else{return 10001;}
-//            }
-//        }
-//        return 10001;
-//    }
-
 
     public int getId() {
         return id;

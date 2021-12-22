@@ -13,14 +13,16 @@ public class RootFrame {
     JFrame frame = new JFrame("123");
     //结果面板
     ResultPanel resultPanel = new ResultPanel("false",0,0,
-            0, 0, 0,0,0,0);
+            0, 0, 0,0,0,0,null);
     //Tab
     JTabbedPane tabbedPane = new JTabbedPane(SwingConstants.LEFT,JTabbedPane.WRAP_TAB_LAYOUT);
     //设备输入面板
     DevicePanel deivcesPanel = new DevicePanel();
 
-    public RootFrame(){
+    //定义数组
+    String[][] deviceArr = new String[deivcesPanel.numb + 1][6];
 
+    public RootFrame(){
 
         //Tab背景颜色为背景颜色
         UIManager.put("TabbedPane.background",new DevicePanel().backGround);
@@ -81,6 +83,24 @@ public class RootFrame {
         public void actionPerformed(ActionEvent e) {
             //Button点击触发事件
             if(deivcesPanel.resultButton.isFocusOwner()){
+                deviceArr[0][0] = "Device Name";
+                deviceArr[0][1] = "Rated Power";
+                deviceArr[0][2] = "Starting Power";
+                deviceArr[0][3] = "Quantity";
+                deviceArr[0][4] = "Dayting Time";
+                deviceArr[0][5] = "Night Time";
+                //赋值deviceArr
+                for(int i = 1; i < deivcesPanel.numb + 1; i++){
+                    if(deivcesPanel.devicesCom[i - 1].getSelectedIndex() > -1) {
+                        deviceArr[i][0] = String.valueOf(deivcesPanel.devicesCom[i - 1].getSelectedItem());
+                        deviceArr[i][1] = deivcesPanel.textPower[i - 1].getText();
+                        deviceArr[i][2] = deivcesPanel.textStartPower[i - 1].getText();
+                        deviceArr[i][3] = deivcesPanel.textNmuber[i -1].getText();
+                        deviceArr[i][4] = deivcesPanel.textDayTime[i - 1].getText();
+                        deviceArr[i][5] = deivcesPanel.textNightTime[i - 1].getText();
+                    }
+                }
+
                 /* 产品套餐生成逻辑
                 * 1. 基础套餐判断条件
                     1.1 开启功率必须小于套餐逆变器的80%
@@ -111,7 +131,8 @@ public class RootFrame {
                                     Integer.valueOf(deivcesPanel.textNightNEPA.getText()),
                                     Integer.valueOf(deivcesPanel.textGen.getText()),
                                     Integer.valueOf(deivcesPanel.getPanleNumb()),
-                                    Double.valueOf(deivcesPanel.getSolarFactor())
+                                    Double.valueOf(deivcesPanel.getSolarFactor()),
+                                    deviceArr
                             ).rootPanel);
 
                             RootFrame.this.tabbedPane.setSelectedIndex(1);
@@ -127,7 +148,8 @@ public class RootFrame {
                                     Integer.valueOf(deivcesPanel.textNightNEPA.getText()),
                                     Integer.valueOf(deivcesPanel.textGen.getText()),
                                     Integer.valueOf(deivcesPanel.getPanleNumb()),
-                                    Double.valueOf(deivcesPanel.getSolarFactor())
+                                    Double.valueOf(deivcesPanel.getSolarFactor()),
+                                    deviceArr
                             ).rootPanel);
                             RootFrame.this.tabbedPane.setSelectedIndex(1);
                         }
